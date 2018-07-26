@@ -1,8 +1,9 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: circleci/php:7.1-cli-browsers
+    parallelism: 2
     working_directory: ~/repo
     steps:
       - checkout
@@ -16,19 +17,4 @@ jobs:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.json" }}
       - run: composer run cs-check
-  test:
-    docker:
-      - image: circleci/php:7.1-cli-browsers
-    parallelism: 4
-    working_directory: ~/repo
-    steps:
-      - checkout
       - run: composer run test
-workflows:
-  version: 2
-  build_and_test:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
