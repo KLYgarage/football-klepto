@@ -63,39 +63,54 @@ class Provider
     /**
      * List all competitions
      */
-    public function listCompetitions(): array
+    public function listCompetitions(): object
     {
         return json_decode(
             (string) $this->httpClient->request(
                 'GET',
                 self::COMPETITION_ENDPOINT
-            )->getBody()
+            )->getBody(),
+            false
         );
     }
 
     /**
      * List competition by area
+     * @param array
      */
-    public function listCompetitionByArea(array $filter = ['areas' => '']): array
+    public function listCompetitionByArea(array $filter = ['areas' => '']): object
     {
         return json_decode(
             (string) $this->httpClient->request(
                 'GET',
                 self::COMPETITION_ENDPOINT . '?' . http_build_query($filter)
-            )->getBody()
+            )->getBody(),
+            false
+        );
+    }
+
+    public function getCompetitionById(int $id): object
+    {
+        return json_decode(
+            (string) $this->httpClient->request(
+                'GET',
+                self::COMPETITION_ENDPOINT . '/' . (string) $id
+            )->getBody(),
+            false
         );
     }
 
     /**
      * List area of competitions
      */
-    public function listAreas(): array
+    public function listAreas(): object
     {
         return json_decode(
             (string) $this->httpClient->request(
                 'GET',
                 self::AREA_ENDPOINT
-            )->getBody()
+            )->getBody(),
+            false
         );
     }
 }
