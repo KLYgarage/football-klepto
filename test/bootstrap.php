@@ -7,11 +7,9 @@ include __DIR__ . '/../vendor/autoload.php';
  */
 function loadTestEnv(): array
 {
-    if (! empty(getenv('CLIENT_ID')) && ! empty(getenv('CLIENT_SECRET'))) {
+    if (! empty(getenv('API_KEY'))) {
         return [
-            'CLIENT_ID' => getenv('CLIENT_ID'),
-            'CLIENT_SECRET' => getenv('CLIENT_SECRET'),
-            'ACCESS_TOKEN' => getenv('ACCESS_TOKEN'),
+            'API_KEY'=>getenv('API_KEY')
         ];
     }
 
