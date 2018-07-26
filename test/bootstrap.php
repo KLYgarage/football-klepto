@@ -9,7 +9,7 @@ function loadTestEnv(): array
 {
     if (! empty(getenv('API_KEY'))) {
         return [
-            'API_KEY'=>getenv('API_KEY')
+            'API_KEY' => getenv('API_KEY'),
         ];
     }
 
