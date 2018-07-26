@@ -1,0 +1,27 @@
+{
+	"name": "kly/football-klepto",
+    "description": "Football Api Integration",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "slim/slim": "^3.10",
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7"
+    },
+     "autoload": {
+        "psr-4": {"Football\\": "src/"}
+    },
+    "autoload-dev": {
+         "psr-4": {
+            "Football\\Test\\": "test/"
+        }
+    },
+    "scripts":{
+        "test": "php ./vendor/bin/phpunit --bootstrap ./test/bootstrap.php ./test/",
+        "test:provider:verbose":"php ./vendor/bin/phpunit --configuration=phpunit.xml --testsuite provider -vvv --debug",
+        "cs-fix": "php ./php-cs-fixer fix ./src -vvv --rules=@PSR2",
+        "cs-fix:test": "php ./php-cs-fixer fix ./test -vvv --rules=@PSR2"
+    }
+}
