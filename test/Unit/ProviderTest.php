@@ -53,5 +53,4 @@ class ProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->assertNotNull($areas);
     }
-
 }

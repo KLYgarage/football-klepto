@@ -4,7 +4,6 @@ namespace Football;
 
 use \GuzzleHttp\Client;
 
-
 /**
  * Class to interact with
  * Football API
