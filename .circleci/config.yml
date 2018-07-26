@@ -16,5 +16,10 @@ jobs:
           paths:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.json" }}
+      - run:
+            name: Define Environment Variable at Runtime
+            command: |
+                echo 'API_KEY=${API_KEY}' >> $BASH_ENV
+                source $BASH_ENV
       - run: composer run cs-check
       - run: composer run test
