@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Football;
 
@@ -13,19 +13,19 @@ class Provider
      * @var string
      */
     private $apiKey;
+
     /**
      * Constructor
-     * @param string $apiKey
      */
-    public function __construct($apiKey = '')
+    public function __construct(string $apiKey = '')
     {
         $this->apiKey = $apiKey;
     }
+
     /**
      * Get client api key
-     * @return string
      */
-    public function getApiKey()
+    public function getApiKey(): string
     {
         return $this->apiKey;
     }

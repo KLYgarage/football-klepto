@@ -8,20 +8,21 @@
         "guzzlehttp/guzzle": "~6.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7"
+        "phpunit/phpunit": "^7",
+        "symplify/easy-coding-standard": "^4.5"
     },
-     "autoload": {
+    "autoload": {
         "psr-4": {"Football\\": "src/"}
     },
     "autoload-dev": {
-         "psr-4": {
+        "psr-4": {
             "Football\\Test\\": "test/"
         }
     },
     "scripts":{
-        "test": "php ./vendor/bin/phpunit --bootstrap ./test/bootstrap.php ./test/",
-        "test:provider:verbose":"php ./vendor/bin/phpunit --configuration=phpunit.xml --testsuite provider -vvv --debug",
-        "cs-fix": "php ./php-cs-fixer fix ./src -vvv --rules=@PSR2",
-        "cs-fix:test": "php ./php-cs-fixer fix ./test -vvv --rules=@PSR2"
+        "test": "phpunit --bootstrap ./test/bootstrap.php ./test/",
+        "test:provider:verbose":"phpunit --configuration=phpunit.xml --testsuite provider -vvv --debug",
+        "cs-check": "ecs check src test",
+        "cs-fix": "ecs check src test --fix"
     }
 }
