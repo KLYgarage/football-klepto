@@ -73,7 +73,7 @@ class ProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($competition);
     }
 
-    public function testGetAreaById()
+    public function testGetAreaById(): void
     {
         $id = 2000;
 
@@ -82,7 +82,7 @@ class ProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($area);
     }
 
-    public function testGetTeamById()
+    public function testGetTeamById(): void
     {
         $id = 18;
 
@@ -91,13 +91,13 @@ class ProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($team);
     }
 
-    public function testGetTeamByCompetitionId()
+    public function testGetTeamByCompetitionId(): void
     {
-        $competitionId =  2001;
+        $competitionId = 2001;
 
-        $filter = array(
-            'stages'=>'S'
-        );  
+        $filter = [
+            'stages' => 'S',
+        ];
 
         $team = $this->provider->getTeamByCompetitionId(
             $competitionId
