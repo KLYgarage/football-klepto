@@ -61,56 +61,69 @@ class Provider
     }
 
     /**
-     * List all competitions
+     * List competitions
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
      */
-    public function listCompetitions(): object
+    public function listCompetitions(bool $convertToArray = true)
     {
         return json_decode(
             (string) $this->httpClient->request(
                 'GET',
                 self::COMPETITION_ENDPOINT
             )->getBody(),
-            false
+            $convertToArray
         );
     }
 
     /**
      * List competition by area
-     * @param array
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
      */
-    public function listCompetitionByArea(array $filter = ['areas' => '']): object
-    {
+    public function listCompetitionByArea(
+        array $filter = ['areas' => ''],
+        bool $convertToArray = true
+) {
         return json_decode(
             (string) $this->httpClient->request(
                 'GET',
                 self::COMPETITION_ENDPOINT . '?' . http_build_query($filter)
             )->getBody(),
-            false
+            $convertToArray
         );
     }
 
-    public function getCompetitionById(int $id): object
-    {
+    /**
+     * Get competition by id
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
+     */
+    public function getCompetitionById(
+        int $id,
+        bool $convertToArray = true
+) {
         return json_decode(
             (string) $this->httpClient->request(
                 'GET',
                 self::COMPETITION_ENDPOINT . '/' . (string) $id
             )->getBody(),
-            false
+            $convertToArray
         );
     }
 
     /**
-     * List area of competitions
+     * List all areas
+     * @return array|\object
      */
-    public function listAreas(): object
+    public function listAreas(bool $convertToArray = true)
     {
         return json_decode(
             (string) $this->httpClient->request(
                 'GET',
                 self::AREA_ENDPOINT
             )->getBody(),
-            false
+            $convertToArray
         );
     }
 }
