@@ -1,11 +1,11 @@
 composer.phar
 *.lock
-*.cache
 *.ignore
 *.log
 *.esproj
 /.vscode/
 .env
+*.cache
 mix-manifest.json
 /vendor/
 /.nyc_output/
