@@ -4,6 +4,7 @@ namespace Football;
 
 use \GuzzleHttp\Client;
 
+
 /**
  * Class to interact with
  * Football API
@@ -11,6 +12,7 @@ use \GuzzleHttp\Client;
 class Provider
 {
     /**
+
      * Server address
      */
     const REST_SERVER = 'http://api.football-data.org';
@@ -23,23 +25,25 @@ class Provider
      */
     const AREA_ENDPOINT = '/v2/areas';
     /**
+
      * Api key
      * @var string
      */
     private $apiKey;
     /**
+
      * Guzzle client
      * @var \GuzzleHttp\Client
      */
     private $httpClient;
     /**
+
      * Constructor
      * @param string $apiKey
      */
     public function __construct($apiKey = '')
     {
         $this->apiKey = $apiKey;
-
         $this->httpClient = new Client([
             'base_uri' => self::REST_SERVER,
             'headers'  => [
@@ -56,6 +60,7 @@ class Provider
     {
         return $this->apiKey;
     }
+
     /**
      * List all competitions
      * @return array

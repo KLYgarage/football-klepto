@@ -28,6 +28,7 @@ class ProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($this->provider->getApiKey());
         $this->assertGreaterThan(0, strlen($this->provider->getApiKey()));
     }
+
     public function testListCompetitions()
     {
         $competitions = $this->provider->listCompetitions();
@@ -52,4 +53,5 @@ class ProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->assertNotNull($areas);
     }
+
 }
