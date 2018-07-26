@@ -75,7 +75,6 @@ class Provider
 
     /**
      * List competition by area
-     * @param array
      */
     public function listCompetitionByArea(array $filter = ['areas' => '']): array
     {
