@@ -24,7 +24,7 @@ class ProviderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Undocumented function
+     * Assert instance of provider not null
      */
     public function testInstanceNotNull(): void
     {
@@ -32,7 +32,7 @@ class ProviderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Undocumented function
+     * Assert api key
      */
     public function testGetApiKey(): void
     {
@@ -62,5 +62,14 @@ class ProviderTest extends \PHPUnit\Framework\TestCase
         $areas = $this->provider->listAreas();
 
         $this->assertNotNull($areas);
+    }
+
+    public function testGetCompetitionById(): void
+    {
+        $id = 2000;
+
+        $competition = $this->provider->getCompetitionById($id);
+
+        $this->assertNotNull($competition);
     }
 }
