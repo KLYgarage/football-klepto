@@ -182,4 +182,22 @@ class Provider
             $convertToArray
         );
     }
+
+    /**
+     * Get standings based on competition id
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
+     */
+    public function getStandingsByCompetitionId(
+        int $competitionId,
+        bool $convertToArray = true
+    ) {
+        return json_decode(
+           (string) $this->httpClient->request(
+            'GET',
+            self::COMPETITION_ENDPOINT . '/' . (string) $competitionId . '/standings'
+           )->getBody(),
+           $convertToArray
+       );
+    }
 }

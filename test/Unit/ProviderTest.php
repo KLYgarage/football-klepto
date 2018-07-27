@@ -105,4 +105,13 @@ class ProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->assertNotNull($team);
     }
+
+    public function testGetStandingsByCompetitionId(): void
+    {
+        $competitionId = 2003;
+
+        $standings = $this->provider->getStandingsByCompetitionId($competitionId);
+
+        $this->assertNotNull($standings);
+    }
 }
