@@ -7,6 +7,7 @@ use \GuzzleHttp\Client;
 /**
  * Class to interact with
  * Football API
+ * For details, please visit : https://www.football-data.org/documentation/quickstart
  */
 class Provider
 {
@@ -29,6 +30,11 @@ class Provider
      * Team endpoint
      */
     public const TEAM_ENDPOINT = '/v2/teams';
+
+    /**
+     * Match endpoint
+     */
+    public const MATCH_ENDPOINT = '/v2/matches';
 
     /**
      * Api key
@@ -66,7 +72,7 @@ class Provider
     }
 
     /**
-     * List competitions
+     * List all available competitions.
      * @param  bool|boolean $convertToArray
      * @return array|\object
      */
@@ -82,7 +88,7 @@ class Provider
     }
 
     /**
-     * List competition by area
+     * List all available competitions by area
      * @param  bool|boolean $convertToArray
      * @return array|\object
      */
@@ -100,7 +106,7 @@ class Provider
     }
 
     /**
-     * Get competition by id
+     * List one particular competition
      * @param  bool|boolean $convertToArray
      * @return array|\object
      */
@@ -118,7 +124,7 @@ class Provider
     }
 
     /**
-     * List all areas
+     * List all available areas
      * @return array|\object
      */
     public function listAreas(bool $convertToArray = true)
@@ -133,7 +139,7 @@ class Provider
     }
 
     /**
-     * Get area by id
+     * List one particular area.
      * @param  bool|boolean $convertToArray
      * @return array|\object
      */
@@ -149,7 +155,7 @@ class Provider
     }
 
     /**
-     * Get team by id
+     * Show one particular team
      * @param  bool|boolean $convertToArray
      * @return array|\object
      */
@@ -165,7 +171,7 @@ class Provider
     }
 
     /**
-     * Get team based on id competition
+     * List all teams for a particular competition
      * @param  bool|boolean $convertToArray
      * @return array|\object
      */
@@ -178,6 +184,115 @@ class Provider
             (string) $this->httpClient->request(
                 'GET',
                 self::COMPETITION_ENDPOINT . '/' . (string) $competitionId . '/teams' . '?' . http_build_query($filter)
+            )->getBody(),
+            $convertToArray
+        );
+    }
+
+    /**
+     * Show Standings for a particular competition
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
+     */
+    public function getStandingsByCompetitionId(
+        int $competitionId,
+        bool $convertToArray = true
+    ) {
+        return json_decode(
+            (string) $this->httpClient->request(
+                'GET',
+                self::COMPETITION_ENDPOINT . '/' . (string) $competitionId . '/standings'
+            )->getBody(),
+            $convertToArray
+        );
+    }
+
+    /**
+     * List matches across (a set of) competitions
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
+     */
+    public function listMatches(
+        array $filter = [
+            'competitions' => '',
+            'dateFrom' => '',
+            'dateTo' => '',
+            'status' => '',
+        ],
+        bool $convertToArray = true
+    ) {
+        return json_decode(
+            (string) $this->httpClient->request(
+                'GET',
+                self::MATCH_ENDPOINT . '?' . http_build_query($filter)
+            )->getBody(),
+            $convertToArray
+        );
+    }
+
+    /**
+     * Show one particular match
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
+     */
+    public function getMatchById(
+        int $matchId,
+        bool $convertToArray = true
+    ) {
+        return json_decode(
+            (string) $this->httpClient->request(
+                'GET',
+                self::MATCH_ENDPOINT . '/' . (string) $matchId
+            )->getBody(),
+            $convertToArray
+        );
+    }
+
+    /**
+     * List all matches for a particular competition.
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
+     */
+    public function getMatchesByCompetitionId(
+        int $competitionId,
+        array $filter = [
+            'dateFrom' => '',
+            'dateTo' => '',
+            'stage' => '',
+            'status' => '',
+            'matchday' => '',
+            'group' => '',
+        ],
+        bool $convertToArray = true
+    ) {
+        return json_decode(
+            (string) $this->httpClient->request(
+                'GET',
+                self::COMPETITION_ENDPOINT . '/' . (string) $competitionId . '/matches' . '?' . http_build_query($filter)
+            )->getBody(),
+            $convertToArray
+        );
+    }
+
+    /**
+     * Show all matches for a particular team.
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
+     */
+    public function getMatchesByTeamId(
+        int $teamId,
+        array $filter = [
+            'dateFrom' => '',
+            'dateTo' => '',
+            'status' => '',
+            'venue' => '',
+        ],
+        bool $convertToArray = true
+    ) {
+        return json_decode(
+            (string) $this->httpClient->request(
+                'GET',
+                self::TEAM_ENDPOINT . '/' . (string) $teamId . '/matches' . '?' . http_build_query($filter)
             )->getBody(),
             $convertToArray
         );
