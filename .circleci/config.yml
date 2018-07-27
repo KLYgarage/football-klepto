@@ -15,10 +15,41 @@ jobs:
           paths:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.json" }}
+      - run: composer run cs-check
       - run:
             name: Define Environment Variable at Runtime
             command: |
                 echo 'API_KEY=${API_KEY}' >> $BASH_ENV
                 source $BASH_ENV
-      - run: composer run cs-check
-      - run: composer run test
+      - run: composer run test:competition_area:verbose
+      - run:
+            name: Define Environment Variable at Runtime
+            command: |
+                echo 'API_KEY=${API_KEY_1}' >> $BASH_ENV
+                source $BASH_ENV
+      - run: composer run test:competition_area:verbose
+      - run:
+            name: Define Environment Variable at Runtime
+            command: |
+                echo 'API_KEY=${API_KEY_2}' >> $BASH_ENV
+                source $BASH_ENV
+      - run: composer run test:competition_team:verbose
+      - run:
+            name: Define Environment Variable at Runtime
+            command: |
+                echo 'API_KEY=${API_KEY_3}' >> $BASH_ENV
+                source $BASH_ENV
+      - run: composer run test:competition_standing:verbose
+      - run:
+            name: Define Environment Variable at Runtime
+            command: |
+                echo 'API_KEY=${API_KEY_4}' >> $BASH_ENV
+                source $BASH_ENV
+      - run: composer run test:competition_match:verbose
+      - run:
+            name: Define Environment Variable at Runtime
+            command: |
+                echo 'API_KEY=${API_KEY_5}' >> $BASH_ENV
+                source $BASH_ENV
+      - run: composer run test:match_team:verbose
+
