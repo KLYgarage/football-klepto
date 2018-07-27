@@ -1,19 +1,17 @@
 <?php declare(strict_types=1);
 
+namespace Football\Test;
+
 use Football\Provider;
 
-class CompetitionApiTest extends \PHPUnit\Framework\TestCase
+class CompetitionTeamApiTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * provider
-     *
-     * @var Provider
+     * Provider
+     * @var \Football\Provider
      */
     private $provider;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $env = \loadTestEnv();
@@ -56,7 +54,7 @@ class CompetitionApiTest extends \PHPUnit\Framework\TestCase
      * @param array|\object $competitions
      * @return int|string
      */
-    public function testCompetitionHasKeys($competitions)
+    public function testGetCompetitionId($competitions)
     {
         if (! is_array($competitions)) {
             $competitions = (array) $competitions;
@@ -78,17 +76,61 @@ class CompetitionApiTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @depends testCompetitionHasKeys
-     * @param int|string $competitionId
+     * Get team from particular competition
+     * @depends testGetCompetitionId
+     * @param  int|string $competitionId
+     * @return array|\object
      */
-    public function testGetParticularCompetition($competitionId): void
+    public function testGetTeamByCompetitionId($competitionId)
     {
         try {
-            $competition = $this->provider->getCompetitionById($competitionId);
+            $filter = [
+                'stages' => 'S',
+            ];
 
-            $this->assertNotNull($competition);
+            $team = $this->provider->getTeamByCompetitionId(
+                $competitionId
+            );
+
+            $this->assertNotNull($team);
+
+            return $team;
         } catch (\Throwable $e) {
-            $this->markTestSkipped($e->getMessage());
+            echo $e->getMessage() . "\n";
+
+            $competitionId = 2001;
+
+            $filter = [
+                'stages' => 'S',
+            ];
+
+            $team = $this->provider->getTeamByCompetitionId(
+                $competitionId
+            );
+
+            $this->assertNotNull($team);
+
+            return $team;
+        }
+    }
+
+    /**
+     * Test get team by id
+     * @depends testGetTeamByCompetitionId
+     * @param  int|string $teamId
+     */
+    public function testGetTeamById($teamId): void
+    {
+        try {
+            $team = $this->provider->getTeamById($teamId);
+
+            $this->assertNotNull($team);
+        } catch (\Throwable $e) {
+            $id = 18;
+
+            $team = $this->provider->getTeamById($id);
+
+            $this->assertNotNull($team);
         }
     }
 }

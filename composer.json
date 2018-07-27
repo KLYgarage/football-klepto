@@ -22,7 +22,11 @@
     },
     "scripts":{
         "test": "phpunit --bootstrap ./test/bootstrap.php ./test/",
-        "test:competition:verbose":"phpunit --configuration=phpunit.xml --testsuite competition -vvv --debug",
+        "test:competition_area:verbose":"phpunit --configuration=phpunit.xml --testsuite competition_area -vvv --debug",
+        "test:competition_team:verbose":"phpunit --configuration=phpunit.xml --testsuite competition_team -vvv --debug",
+        "test:competition_standing:verbose":"phpunit --configuration=phpunit.xml --testsuite competition_standing -vvv --debug",
+        "test:competition_match:verbose":"phpunit --configuration=phpunit.xml --testsuite competition_match -vvv --debug",
+        "test:match_team:verbose":"phpunit --configuration=phpunit.xml --testsuite match_team -vvv --debug",
         "cs-check": "ecs check src test",
         "cs-fix": "ecs check src test --fix"
     }
