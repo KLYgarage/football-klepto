@@ -1,7 +1,19 @@
 <phpunit bootstrap="./test/bootstrap.php">
     <testsuites>
-      <testsuite name="provider">
-        <file>./test/Unit/ProviderTest.php</file>
+      <testsuite name="competition_area">
+        <file>./test/Unit/CompetitionAreaApiTest.php</file>
+      </testsuite>
+       <testsuite name="competition_team">
+        <file>./test/Unit/CompetitionTeamApiTest.php</file>
+      </testsuite>
+       <testsuite name="competition_standing">
+        <file>./test/Unit/CompetitionStandingApiTest.php</file>
+      </testsuite>
+       <testsuite name="competition_match">
+        <file>./test/Unit/CompetitionMatchApiTest.php</file>
+      </testsuite>
+       <testsuite name="match_team">
+        <file>./test/Unit/MatchTeamApiTest.php</file>
       </testsuite>
   </testsuites>
 </phpunit>
