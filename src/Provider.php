@@ -26,6 +26,11 @@ class Provider
     public const AREA_ENDPOINT = '/v2/areas';
 
     /**
+     * Team endpoint
+     */
+    public const TEAM_ENDPOINT = '/v2/teams';
+
+    /**
      * Api key
      * @var string
      */
@@ -84,7 +89,7 @@ class Provider
     public function listCompetitionByArea(
         array $filter = ['areas' => ''],
         bool $convertToArray = true
-) {
+    ) {
         return json_decode(
             (string) $this->httpClient->request(
                 'GET',
@@ -102,7 +107,7 @@ class Provider
     public function getCompetitionById(
         int $id,
         bool $convertToArray = true
-) {
+    ) {
         return json_decode(
             (string) $this->httpClient->request(
                 'GET',
@@ -125,5 +130,74 @@ class Provider
             )->getBody(),
             $convertToArray
         );
+    }
+
+    /**
+     * Get area by id
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
+     */
+    public function getAreaById(int $id, bool $convertToArray = true)
+    {
+        return json_decode(
+            (string) $this->httpClient->request(
+                'GET',
+                self::AREA_ENDPOINT . '/' . (string) $id
+            )->getBody(),
+            $convertToArray
+        );
+    }
+
+    /**
+     * Get team by id
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
+     */
+    public function getTeamById(int $id, bool $convertToArray = true)
+    {
+        return json_decode(
+            (string) $this->httpClient->request(
+                'GET',
+                self::TEAM_ENDPOINT . '/' . (string) $id
+            )->getBody(),
+            $convertToArray
+        );
+    }
+
+    /**
+     * Get team based on id competition
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
+     */
+    public function getTeamByCompetitionId(
+        int $competitionId,
+        array $filter = ['stages' => ''],
+        bool $convertToArray = true
+    ) {
+        return json_decode(
+            (string) $this->httpClient->request(
+                'GET',
+                self::COMPETITION_ENDPOINT . '/' . (string) $competitionId . '/teams' . '?' . http_build_query($filter)
+            )->getBody(),
+            $convertToArray
+        );
+    }
+
+    /**
+     * Get standings based on competition id
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
+     */
+    public function getStandingsByCompetitionId(
+        int $competitionId,
+        bool $convertToArray = true
+    ) {
+        return json_decode(
+           (string) $this->httpClient->request(
+            'GET',
+            self::COMPETITION_ENDPOINT . '/' . (string) $competitionId . '/standings'
+           )->getBody(),
+           $convertToArray
+       );
     }
 }

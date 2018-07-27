@@ -72,4 +72,46 @@ class ProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->assertNotNull($competition);
     }
+
+    public function testGetAreaById(): void
+    {
+        $id = 2000;
+
+        $area = $this->provider->getAreaById($id);
+
+        $this->assertNotNull($area);
+    }
+
+    public function testGetTeamById(): void
+    {
+        $id = 18;
+
+        $team = $this->provider->getTeamById($id);
+
+        $this->assertNotNull($team);
+    }
+
+    public function testGetTeamByCompetitionId(): void
+    {
+        $competitionId = 2001;
+
+        $filter = [
+            'stages' => 'S',
+        ];
+
+        $team = $this->provider->getTeamByCompetitionId(
+            $competitionId
+        );
+
+        $this->assertNotNull($team);
+    }
+
+    public function testGetStandingsByCompetitionId(): void
+    {
+        $competitionId = 2003;
+
+        $standings = $this->provider->getStandingsByCompetitionId($competitionId);
+
+        $this->assertNotNull($standings);
+    }
 }
