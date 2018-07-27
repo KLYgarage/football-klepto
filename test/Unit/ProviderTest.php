@@ -114,4 +114,41 @@ class ProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->assertNotNull($standings);
     }
+
+    public function testListMatches(): void
+    {
+        $filter = [
+            'competitions' => '2000',
+            'dateFrom' => '2018-06-24',
+            'dateTo' => '2018-06-24',
+        ];
+        $matches = $this->provider->listMatches($filter);
+
+        $this->assertNotNull($matches);
+    }
+
+    public function testGetMatchById(): void
+    {
+        $matchId = 200033;
+        $match = $this->provider->getMatchById($matchId);
+        $this->assertNotNull($match);
+    }
+
+    public function testGetMatchByCompetitionId(): void
+    {
+        $competitionId = 2003;
+
+        $match = $this->provider->getMatchesByCompetitionId($competitionId);
+
+        $this->assertNotNull($match);
+    }
+
+    public function testGetMatchesByTeamId(): void
+    {
+        $teamId = 759;
+
+        $matches = $this->provider->getMatchesByTeamId($teamId);
+
+        $this->assertNotNull($matches);
+    }
 }
