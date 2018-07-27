@@ -223,8 +223,8 @@ class Provider
     ) {
         return json_decode(
             (string) $this->httpClient->request(
-               'GET',
-               self::MATCH_ENDPOINT . '?' . http_build_query($filter)
+                'GET',
+                self::MATCH_ENDPOINT . '?' . http_build_query($filter)
             )->getBody(),
             $convertToArray
         );
@@ -291,9 +291,9 @@ class Provider
     ) {
         return json_decode(
             (string) $this->httpClient->request(
-               'GET',
-               self::TEAM_ENDPOINT . '/' . (string) $teamId . '/matches' . '?' . http_build_query($filter)
-           )->getBody(),
+                'GET',
+                self::TEAM_ENDPOINT . '/' . (string) $teamId . '/matches' . '?' . http_build_query($filter)
+            )->getBody(),
             $convertToArray
         );
     }
