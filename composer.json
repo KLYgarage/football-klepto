@@ -22,7 +22,7 @@
     },
     "scripts":{
         "test": "phpunit --bootstrap ./test/bootstrap.php ./test/",
-        "test:provider:verbose":"phpunit --configuration=phpunit.xml --testsuite provider -vvv --debug",
+        "test:competition:verbose":"phpunit --configuration=phpunit.xml --testsuite competition -vvv --debug",
         "cs-check": "ecs check src test",
         "cs-fix": "ecs check src test --fix"
     }
