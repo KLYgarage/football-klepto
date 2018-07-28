@@ -1,0 +1,100 @@
+{
+	"count": 5,
+	"filters": {
+		"areas": [
+			2114
+		]
+	},
+	"competitions": [
+		{
+			"id": 2121,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "Serie B",
+			"code": null,
+			"plan": "TIER_TWO",
+			"currentSeason": {
+				"id": 130,
+				"startDate": "2017-08-25",
+				"endDate": "2018-06-16",
+				"currentMatchday": 42
+			},
+			"numberOfAvailableSeasons": 1,
+			"lastUpdated": "2018-06-05T00:14:34Z"
+		},
+		{
+			"id": 2019,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "Serie A",
+			"code": null,
+			"plan": "TIER_ONE",
+			"currentSeason": {
+				"id": 290,
+				"startDate": "2018-08-18",
+				"endDate": "2019-05-26",
+				"currentMatchday": null
+			},
+			"numberOfAvailableSeasons": 2,
+			"lastUpdated": "2018-06-05T00:14:16Z"
+		},
+		{
+			"id": 2122,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "Coppa Italia",
+			"code": null,
+			"plan": "TIER_THREE",
+			"currentSeason": {
+				"id": 285,
+				"startDate": "2018-07-28",
+				"endDate": "2019-01-13",
+				"currentMatchday": null
+			},
+			"numberOfAvailableSeasons": 2,
+			"lastUpdated": "2018-06-05T00:14:51Z"
+		},
+		{
+			"id": 2123,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "Serie C",
+			"code": null,
+			"plan": "TIER_FOUR",
+			"currentSeason": {
+				"id": 132,
+				"startDate": "2017-08-26",
+				"endDate": "2018-06-16",
+				"currentMatchday": 38
+			},
+			"numberOfAvailableSeasons": 1,
+			"lastUpdated": "2018-06-05T00:15:10Z"
+		},
+		{
+			"id": 2124,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "Supercoppa",
+			"code": null,
+			"plan": "TIER_FOUR",
+			"currentSeason": {
+				"id": 159,
+				"startDate": "2019-01-12",
+				"endDate": "2019-01-12",
+				"currentMatchday": null
+			},
+			"numberOfAvailableSeasons": 2,
+			"lastUpdated": "2018-06-05T00:14:07Z"
+		}
+	]
+}
