@@ -37,30 +37,6 @@ class MatchFormatMapperTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($this->formatter);
     }
 
-    public function testMapClubs(): void
-    {
-        $competitionId = 2019;
-
-        $teams = $this->provider->getTeamByCompetitionId($competitionId);
-
-        $this->assertNotNull($teams);
-
-        $teamsFromRepo = $this->formatter->getClubNameMapping(
-            $this->formatter::ITALIAN_LEAGUE
-        );
-
-        $this->assertNotNull($teamsFromRepo);
-
-        foreach ($teams['teams'] as $team) {
-            $this->assertNotFalse(
-                $this->formatter->mapClubName(
-                    $team['name'],
-                    $this->formatter::ITALIAN_LEAGUE
-                )
-            );
-        }
-    }
-
     public function testFormatSchedules(): void
     {
         //italian seria A

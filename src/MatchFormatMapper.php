@@ -12,11 +12,16 @@ class MatchFormatMapper
      */
     private $clubNameMapping;
 
-    public function __construct()
+    /**
+     * Constructor
+     */
+    public function __construct(?\Football\ClubMappingData $clubNameMapping = null)
     {
         date_default_timezone_set('asia/jakarta');
 
-        $this->initClubNameMapping();
+        if ($clubNameMapping === null) {
+            $this->clubNameMapping = new ClubMappingData();
+        }
     }
 
     /**
@@ -40,17 +45,16 @@ class MatchFormatMapper
                     'schedule' => $time,
                     'schedule_ina' => date('Y-m-d H:i:s', $time),
                     'club_home' => $match['homeTeam']['name'],
-                    'club_home_bola' => $this->mapClubName(
+                    'club_home_bola' => $this->clubNameMapping->mapClubName(
                         $match['homeTeam']['name'],
                         $league
                     ),
                     'club_away' => $match['awayTeam']['name'],
-                    'club_away_bola' => $this->mapClubName(
+                    'club_away_bola' => $this->clubNameMapping->mapClubName(
                         $match['awayTeam']['name'],
                         $league
                     ),
-                    'url_away' => 'http://api.football-data.org/v2/teams/' . $match['awayTeam']['id'],
-                    'url_detail_match' => 'http://api.football-data.org/v2/matches/' . $match['id'],
+                    'url_detail_match' => Provider::REST_SERVER . Provider::MATCH_ENDPOINT . '/' . $match['id'],
                     'week' => $match['matchday'],
                 ]);
             }
@@ -58,67 +62,5 @@ class MatchFormatMapper
             return $schedules;
         }
         return [];
-    }
-
-    /**
-     * Get club name mapping based on league
-     * @throws \Exception
-     */
-    public function getClubNameMapping(string $league): array
-    {
-        try {
-            return $this->clubNameMapping[$league];
-        } catch (\Throwable $e) {
-            echo $e->getMessage();
-            return [];
-        }
-    }
-
-    /**
-     * Map club name
-     * @return string|bool
-     */
-    public function mapClubName(string $clubName, string $league)
-    {
-        try {
-            return $this->clubNameMapping[$league][$clubName];
-        } catch (\Throwable $e) {
-            echo $e->getMessage() . "\n";
-            return false;
-        }
-    }
-
-    /**
-     * Init club name mapping
-     */
-    private function initClubNameMapping(): void
-    {
-        $this->clubNameMapping = [
-            self::ITALIAN_LEAGUE => [
-                'AC Milan' => 'AC Milan',
-                'Atalanta BC' => 'Atalanta',
-                'Benevento' => 'Benevento',
-                'Bologna FC 1909' => 'Bologna FC',
-                'Cagliari Calcio' => 'Cagliari',
-                'AC Chievo Verona' => 'Chievo',
-                'Crotone' => 'Crotone',
-                'ACF Fiorentina' => 'Fiorentina',
-                'Frosinone Calcio' => 'Frosinone',
-                'Genoa CFC' => 'Genoa',
-                'Hellas Verona' => 'Hellas Verona',
-                'FC Internazionale Milano' => 'Inter Milan',
-                'Juventus FC' => 'Juventus',
-                'SS Lazio' => 'Lazio',
-                'SSC Napoli' => 'Napoli',
-                'AS Roma' => 'AS Roma',
-                'Parma Calcio 1913' => 'Parma',
-                'SPAL 2013' => 'SPAL',
-                'UC Sampdoria' => 'Sampdoria',
-                'US Sassuolo Calcio' => 'Sassuolo',
-                'Torino FC' => 'Torino',
-                'Udinese Calcio' => 'Udinese',
-                'Empoli FC' => 'Empoli',
-            ],
-        ];
     }
 }
