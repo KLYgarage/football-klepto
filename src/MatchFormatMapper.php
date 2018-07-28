@@ -75,10 +75,10 @@ class MatchFormatMapper
     }
 
     /**
-     * Map club names received from football-data.org
+     * Map club name
      * @return string|bool
      */
-    public function mapClubName(string $clubName, stirng $league)
+    public function mapClubName(string $clubName, string $league)
     {
         try {
             return $this->clubNameMapping[$league][$clubName];
