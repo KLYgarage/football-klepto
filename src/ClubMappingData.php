@@ -14,7 +14,7 @@ class ClubMappingData
 
     /**
      * constructor
-     * @param string[string[]] $data
+     * @param string[array] $data
      */
     public function __construct(array $data = [])
     {
