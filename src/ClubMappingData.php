@@ -8,13 +8,13 @@ class ClubMappingData
 
     /**
      * Club name mapping
-     * @var array[string[]]
+     * @var array[string]
      */
     private $clubNameMapping;
 
     /**
      * constructor
-     * @param array[string[]] $data
+     * @param array[string] $data
      */
     public function __construct(array $data = [])
     {
@@ -27,7 +27,7 @@ class ClubMappingData
 
     /**
      * Set club name mapping from custom source
-     * @param array[string[]] $data
+     * @param array[string] $data
      * @throws \Exception
      */
     public function setClubNameMappingData(array $data = []): void
@@ -40,7 +40,7 @@ class ClubMappingData
 
     /**
      * Get all club names mapping
-     * @return array[string[]]
+     * @return array[string]
      */
     public function getClubNameMappingData(): array
     {
