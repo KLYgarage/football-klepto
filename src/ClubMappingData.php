@@ -7,7 +7,7 @@ class ClubMappingData
     public const DEFAULT_JSON_FILE = 'club_name_mapping.json';
 
     /**
-     * @var string[]
+     * @var array<string[]>
      */
     private $clubNameMapping = [];
 
@@ -55,8 +55,7 @@ class ClubMappingData
     }
 
     /**
-     * Get club name mapping based on league
-     * @throws \Exception
+     * @return string[]
      */
     public function getClubNameMapping(string $league): array
     {
