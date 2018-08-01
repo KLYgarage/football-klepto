@@ -15,5 +15,11 @@
        <testsuite name="match_team">
         <file>./test/Unit/MatchTeamApiTest.php</file>
       </testsuite>
+       <testsuite name="match_format_mapper">
+          <file>./test/Unit/MatchFormatMapperTest.php</file>
+      </testsuite>
+       <testsuite name="club_name_mapping">
+          <file>./test/Unit/ClubMappingDataTest.php</file>
+      </testsuite>
   </testsuites>
 </phpunit>

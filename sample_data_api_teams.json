@@ -1,0 +1,383 @@
+{
+	"count": 20,
+	"filters": {},
+	"competition": {
+		"id": 2019,
+		"area": {
+			"id": 2114,
+			"name": "Italy"
+		},
+		"name": "Serie A",
+		"code": null,
+		"plan": "TIER_ONE",
+		"lastUpdated": "2018-06-05T00:14:16Z"
+	},
+	"season": {
+		"id": 290,
+		"startDate": "2018-08-18",
+		"endDate": "2019-05-26",
+		"currentMatchday": null
+	},
+	"teams": [
+		{
+			"id": 98,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "AC Milan",
+			"shortName": "Milan",
+			"tla": "ACM",
+			"address": "Via Filippo Turati 3 Milano 20121",
+			"phone": "+39 (02) 62281",
+			"website": "http://www.acmilan.com",
+			"email": null,
+			"founded": 1899,
+			"clubColors": "Red / Black",
+			"venue": null,
+			"lastUpdated": "2018-06-02T14:56:15Z"
+		},
+		{
+			"id": 99,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "ACF Fiorentina",
+			"shortName": "Fiorentina",
+			"tla": "FIO",
+			"address": "Viale Manfredo Fanti 4 Firenze 50137",
+			"phone": "+39 (055) 5030190",
+			"website": "http://www.acffiorentina.it",
+			"email": "segreteria@acffiorentina.it",
+			"founded": 1926,
+			"clubColors": "Purple / White",
+			"venue": null,
+			"lastUpdated": "2018-06-02T14:56:18Z"
+		},
+		{
+			"id": 100,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "AS Roma",
+			"shortName": "Roma",
+			"tla": "ROM",
+			"address": "Via di Trigoria km. 3,600 Roma 00128",
+			"phone": "+39 (06) 501911",
+			"website": "http://www.asroma.it",
+			"email": "info@asromaweb.com",
+			"founded": 1927,
+			"clubColors": "Maroon / Orange / White",
+			"venue": null,
+			"lastUpdated": "2018-06-02T14:56:20Z"
+		},
+		{
+			"id": 102,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "Atalanta BC",
+			"shortName": "Atalanta",
+			"tla": null,
+			"address": "Corso Europa, 46, Zingonia Ciserano 24040",
+			"phone": "+39 (035) 4186211",
+			"website": "http://www.atalanta.it",
+			"email": "info@atalanta.it",
+			"founded": 1904,
+			"clubColors": "Black / Blue",
+			"venue": null,
+			"lastUpdated": "2018-06-02T14:56:22Z"
+		},
+		{
+			"id": 103,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "Bologna FC 1909",
+			"shortName": "Bologna",
+			"tla": null,
+			"address": "Via Casteldebole 10 Bologna 40132",
+			"phone": "+39 (051) 6111111",
+			"website": "http://www.bolognafc.it",
+			"email": "comunicazione@bolognafc.it",
+			"founded": 1909,
+			"clubColors": "Red / Blue / White",
+			"venue": null,
+			"lastUpdated": "2018-06-02T14:56:24Z"
+		},
+		{
+			"id": 104,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "Cagliari Calcio",
+			"shortName": "Cagliari",
+			"tla": null,
+			"address": "Viale la Plaia 15 Cagliari 09123",
+			"phone": "+39 (070) 604 201",
+			"website": "http://www.cagliaricalcio.net",
+			"email": "info@cagliaricalcio.net",
+			"founded": 1920,
+			"clubColors": "Red / Navy Blue / White",
+			"venue": null,
+			"lastUpdated": "2018-06-02T14:56:28Z"
+		},
+		{
+			"id": 106,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "AC Chievo Verona",
+			"shortName": "Chievo",
+			"tla": null,
+			"address": "Via Luigi Galvani 3 Verona 37138",
+			"phone": "+39 (045) 575779",
+			"website": "http://www.chievoverona.it",
+			"email": "info@chievoverona.it",
+			"founded": 1929,
+			"clubColors": "Yellow / Blue",
+			"venue": null,
+			"lastUpdated": "2018-06-02T14:56:29Z"
+		},
+		{
+			"id": 107,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "Genoa CFC",
+			"shortName": "Genoa",
+			"tla": "CFC",
+			"address": "Via Ronchi, 67 Genua 16155",
+			"phone": "+39 (010) 612831",
+			"website": "http://www.genoacfc.it",
+			"email": "genoa@lega-calcio.it",
+			"founded": 1893,
+			"clubColors": "Red / Navy Blue",
+			"venue": null,
+			"lastUpdated": "2018-06-02T14:56:32Z"
+		},
+		{
+			"id": 108,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "FC Internazionale Milano",
+			"shortName": "Inter",
+			"tla": "Int",
+			"address": "Corso Vittorio Emanuele II 9 Milano 20122",
+			"phone": "+39 (02) 77151",
+			"website": "http://www.inter.it",
+			"email": "segreteriaccic@inter.it",
+			"founded": 1908,
+			"clubColors": "Blue / Black",
+			"venue": null,
+			"lastUpdated": "2018-06-02T14:56:35Z"
+		},
+		{
+			"id": 109,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "Juventus FC",
+			"shortName": "Juventus",
+			"tla": "JUVE",
+			"address": "Corso Galileo Ferraris, 32 Torino 10128",
+			"phone": "+39 (011) 65631",
+			"website": "http://www.juventus.com",
+			"email": "francesco.gianello@juventus.com",
+			"founded": 1897,
+			"clubColors": "White / Black",
+			"venue": null,
+			"lastUpdated": "2018-06-02T14:56:37Z"
+		},
+		{
+			"id": 110,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "SS Lazio",
+			"shortName": "Lazio",
+			"tla": "LAZ",
+			"address": "Via di Santa Cornelia, 1000 Formello 00060",
+			"phone": "+39 (06) 976071",
+			"website": "http://www.sslazio.it",
+			"email": "segreteria.lazio@sslazio.it",
+			"founded": 1900,
+			"clubColors": "White / Sky Blue",
+			"venue": null,
+			"lastUpdated": "2018-06-02T14:56:40Z"
+		},
+		{
+			"id": 112,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "Parma Calcio 1913",
+			"shortName": "Parma",
+			"tla": "FCP",
+			"address": "Strada Carlo Pisacane, 4 Parma 43121",
+			"phone": "+39 (521) 170591",
+			"website": "http://www.parmacalcio1913.com",
+			"email": "info@parmacalcio1913.com",
+			"founded": 1913,
+			"clubColors": "White / Black",
+			"venue": null,
+			"lastUpdated": "2018-06-02T14:56:43Z"
+		},
+		{
+			"id": 113,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "SSC Napoli",
+			"shortName": "Napoli",
+			"tla": "SSC",
+			"address": "Centro Tecnico di Castel Volturno, Via S.S. Domitana, Km 35 Castel Volturno 81030",
+			"phone": "+39 (081) 5095344",
+			"website": "http://www.sscnapoli.it",
+			"email": "infocalcio@sscn.it",
+			"founded": 1904,
+			"clubColors": "Sky Blue / White",
+			"venue": null,
+			"lastUpdated": "2018-06-02T14:56:46Z"
+		},
+		{
+			"id": 115,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "Udinese Calcio",
+			"shortName": "Udinese",
+			"tla": null,
+			"address": "Via Agostino e Angelo Candolini 2 Udine 33100",
+			"phone": "+39 (0432) 544911",
+			"website": "http://www.udinese.it",
+			"email": "udinese@udinese.it",
+			"founded": 1896,
+			"clubColors": "White / Black",
+			"venue": null,
+			"lastUpdated": "2018-05-31T16:28:23Z"
+		},
+		{
+			"id": 445,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "Empoli FC",
+			"shortName": "Empoli",
+			"tla": "EMP",
+			"address": "Piazza Matteotti Empoli 50053",
+			"phone": "+39 (05) 7172212",
+			"website": "http://www.empolicalcio.net",
+			"email": "empoli@lega-calcio.it",
+			"founded": 1920,
+			"clubColors": "Blue / White",
+			"venue": null,
+			"lastUpdated": "2018-06-02T14:57:06Z"
+		},
+		{
+			"id": 470,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "Frosinone Calcio",
+			"shortName": "Frosinone",
+			"tla": null,
+			"address": "Via Marittima, 2 Frosinone 03100",
+			"phone": "+39 (0775) 822013",
+			"website": "http://www.frosinonecalcio.com",
+			"email": "frosinonecalcio@libero.it",
+			"founded": 1912,
+			"clubColors": "Yellow / Blue",
+			"venue": null,
+			"lastUpdated": "2018-06-02T14:58:35Z"
+		},
+		{
+			"id": 471,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "US Sassuolo Calcio",
+			"shortName": "Sassuolo",
+			"tla": "SASS",
+			"address": "Piazza Risorgimento, 47 Sassuolo 41049",
+			"phone": "+39 (0536) 882645",
+			"website": "http://www.sassuolocalcio.it",
+			"email": "info@sassuolocalcio.it",
+			"founded": 1922,
+			"clubColors": "Green / Black",
+			"venue": null,
+			"lastUpdated": "2018-05-31T16:28:25Z"
+		},
+		{
+			"id": 584,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "UC Sampdoria",
+			"shortName": "Sampdoria",
+			"tla": null,
+			"address": "Piazza Borgo Pila, 39 Genova 16129",
+			"phone": "+39 (010) 5316711",
+			"website": "http://www.sampdoria.it",
+			"email": "info@sampdoria.it",
+			"founded": 1946,
+			"clubColors": "Blue / White / Red",
+			"venue": null,
+			"lastUpdated": "2018-05-31T16:28:27Z"
+		},
+		{
+			"id": 586,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "Torino FC",
+			"shortName": "Torino",
+			"tla": "FCT",
+			"address": "Via Arcivescovado 1 Torino 10122",
+			"phone": "+39 (01) 11970034",
+			"website": "http://www.torinofc.it",
+			"email": "info@toro.it",
+			"founded": 1894,
+			"clubColors": "Brown / White",
+			"venue": null,
+			"lastUpdated": "2018-05-31T16:28:28Z"
+		},
+		{
+			"id": 1107,
+			"area": {
+				"id": 2114,
+				"name": "Italy"
+			},
+			"name": "SPAL 2013",
+			"shortName": "SPAL 2013",
+			"tla": null,
+			"address": "Corso Piave 28 Ferrara 44100",
+			"phone": "+39 (0532) 52752",
+			"website": "http://www.spal2013.it",
+			"email": "info@spal1907.net",
+			"founded": 1907,
+			"clubColors": null,
+			"venue": null,
+			"lastUpdated": "2018-05-31T16:28:31Z"
+		}
+	]
+}
