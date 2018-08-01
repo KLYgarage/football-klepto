@@ -18,7 +18,7 @@ class ClubMappingData
      */
     public function __construct(?array $data = null)
     {
-        if ($data !== null && ! empty($data)) {
+        if (! empty($data)) {
             $this->clubNameMapping = $this->normalizeMappingData($data);
         } else {
             $this->initClubNameMapping();
@@ -32,7 +32,7 @@ class ClubMappingData
      */
     public function setClubNameMappingData(?array $data = null): void
     {
-        if ($data !== null && ! empty($data)) {
+        if (! empty($data)) {
             $this->clubNameMapping = $data;
         }
         throw new \Exception('Invalid data source', 1);
@@ -44,7 +44,7 @@ class ClubMappingData
      */
     public function getClubNameMappingData(): array
     {
-        if ($this->clubNameMapping !== null && isset($this->clubNameMapping)) {
+        if (! empty($this->clubNameMapping)) {
             return $this->clubNameMapping;
         }
         return [];
@@ -99,22 +99,16 @@ class ClubMappingData
      */
     private function normalizeMappingData(?array $data = []): array
     {
-        $keys = array_keys($data);
+        try {
+            array_walk($data, function (&$v, $k): void {
+                $v = array_merge(...array_filter($v, function ($value, $key) {
+                    return is_numeric($key);
+                }, ARRAY_FILTER_USE_BOTH));
+            });
 
-        foreach ($data as $key => &$value) {
-            if (! $this->hasKeyStrings($value)) {
-                $value = array_merge(...$value);
-            }
+            return $data;
+        } catch (\Throwable $e) {
+            return $data;
         }
-        return $data;
-    }
-
-    /**
-     * Check if array contains string key
-     * @param  mixed[] $array
-     */
-    private function hasKeyStrings(array $array): bool
-    {
-        return count(array_filter(array_keys($array), 'is_string')) > 0;
     }
 }
