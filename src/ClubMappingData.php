@@ -106,7 +106,7 @@ class ClubMappingData
                 $value = array_merge(...$value);
             }
         }
-        return empty($normalized) ? $data : $normalized;
+        return $data;
     }
 
     /**
