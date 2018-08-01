@@ -8,15 +8,15 @@ class ClubMappingData
 
     /**
      * Club name mapping
-     * @var string[]
+     * @var array[string[]]
      */
     private $clubNameMapping;
 
     /**
      * constructor
-     * @param array|null $data
+     * @param array[string[]] $data
      */
-    public function __construct(?array $data = null)
+    public function __construct(array $data = [])
     {
         if (! empty($data)) {
             $this->clubNameMapping = $this->normalizeMappingData($data);
@@ -27,10 +27,10 @@ class ClubMappingData
 
     /**
      * Set club name mapping from custom source
-     * @param array|null $data
+     * @param array[string[]] $data
      * @throws \Exception
      */
-    public function setClubNameMappingData(?array $data = null): void
+    public function setClubNameMappingData(array $data = []): void
     {
         if (! empty($data)) {
             $this->clubNameMapping = $data;
@@ -40,7 +40,7 @@ class ClubMappingData
 
     /**
      * Get all club names mapping
-     * @return string[]
+     * @return array[string[]]
      */
     public function getClubNameMappingData(): array
     {
@@ -97,10 +97,10 @@ class ClubMappingData
     /**
      * Normalize data
      */
-    private function normalizeMappingData(?array $data = []): array
+    private function normalizeMappingData(array $data = []): array
     {
         try {
-            array_walk($data, function (&$v, $k): void {
+            array_walk($data, function (&$v): void {
                 $v = array_merge(...array_filter($v, function ($value, $key) {
                     return is_numeric($key);
                 }, ARRAY_FILTER_USE_BOTH));

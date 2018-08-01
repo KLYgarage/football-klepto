@@ -8,7 +8,7 @@ class MatchFormatMapper
 
     /**
      * Club name mapping
-     * @var string[]
+     * @var \Football\ClubMappingData
      */
     private $clubNameMapping;
 
