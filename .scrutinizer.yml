@@ -76,7 +76,7 @@ coding_style:
                 shift: true
                 unary_additive: false
                 concatenation: true
-                negation: false
+                negation: true
             before_left_brace:
                 class: true
                 function: true
