@@ -7,14 +7,16 @@ class ClubMappingData
     public const DEFAULT_JSON_FILE = 'club_name_mapping.json';
 
     /**
-     * Club name mapping
-     * @var \Traversable
+     * @var string[]
      */
-    private $clubNameMapping;
+    private $clubNameMapping = [];
 
     /**
      * constructor
-     * @param \Traversable $data
+     * @param array $data{
+     * @var string
+     * @var string[]
+     * }
      */
     public function __construct(array $data = [])
     {
@@ -27,7 +29,10 @@ class ClubMappingData
 
     /**
      * Set club name mapping from custom source
-     * @param \Traversable $data
+     * @param array $data{
+     * @var string
+     * @var string[]
+     * }
      * @throws \Exception
      */
     public function setClubNameMappingData(array $data = []): void
@@ -40,7 +45,6 @@ class ClubMappingData
 
     /**
      * Get all club names mapping
-     * @return \Traversable
      */
     public function getClubNameMappingData(): array
     {
