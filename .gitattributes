@@ -10,4 +10,4 @@
 /docs export-ignore
 /.editorconfig export-ignore
 /php-cs-fixer export-ignore
-/.json export-ignore
+/*.json export-ignore
