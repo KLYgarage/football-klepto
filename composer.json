@@ -28,6 +28,7 @@
         "test:competition_match:verbose":"phpunit --configuration=phpunit.xml --testsuite competition_match -vvv --debug",
         "test:match_team:verbose":"phpunit --configuration=phpunit.xml --testsuite match_team -vvv --debug",
         "test:match_format_mapper:verbose":"phpunit --configuration=phpunit.xml --testsuite match_format_mapper -vvv --debug",
+        "test:club_name_mapping:verbose":"phpunit --configuration=phpunit.xml --testsuite club_name_mapping -vvv --debug",
         "cs-check": "ecs check src test",
         "cs-fix": "ecs check src test --fix"
     }

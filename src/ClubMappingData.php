@@ -12,9 +12,42 @@ class ClubMappingData
      */
     private $clubNameMapping;
 
-    public function __construct()
+    /**
+     * constructor
+     * @param array|null $data
+     */
+    public function __construct(?array $data = null)
     {
-        $this->initClubNameMapping();
+        if ($data !== null && ! empty($data)) {
+            $this->clubNameMapping = $this->normalizeMappingData($data);
+        } else {
+            $this->initClubNameMapping();
+        }
+    }
+
+    /**
+     * Set club name mapping from custom source
+     * @param array|null $data
+     * @throws \Exception
+     */
+    public function setClubNameMappingData(?array $data = null): void
+    {
+        if ($data !== null && ! empty($data)) {
+            $this->clubNameMapping = $data;
+        }
+        throw new \Exception('Invalid data source', 1);
+    }
+
+    /**
+     * Get all club names mapping
+     * @return string[]
+     */
+    public function getClubNameMappingData(): array
+    {
+        if ($this->clubNameMapping !== null && isset($this->clubNameMapping)) {
+            return $this->clubNameMapping;
+        }
+        return [];
     }
 
     /**
@@ -37,12 +70,12 @@ class ClubMappingData
      */
     public function mapClubName(string $clubName, string $league)
     {
-        foreach ($this->clubNameMapping[$league] as $key => $value) {
-            if (isset($value[$clubName])) {
-                return $value[$clubName];
-            }
+        try {
+            return $this->clubNameMapping[$league][$clubName];
+        } catch (\Throwable $e) {
+            echo $e->getMessage() . "\n";
+            return false;
         }
-        return false;
     }
 
     /**
@@ -55,8 +88,33 @@ class ClubMappingData
         if (! $file) {
             throw new \Exception('JSON file not found', 1);
         }
-        $this->clubNameMapping = json_decode($file, true);
 
-        //print_r($this->clubNameMapping);
+        $this->clubNameMapping = $this->normalizeMappingData(
+            json_decode($file, true)
+        );
+    }
+
+    /**
+     * Normalize data
+     */
+    private function normalizeMappingData(?array $data = []): array
+    {
+        $keys = array_keys($data);
+
+        foreach ($data as $key => &$value) {
+            if (! $this->hasKeyStrings($value)) {
+                $value = array_merge(...$value);
+            }
+        }
+        return empty($normalized) ? $data : $normalized;
+    }
+
+    /**
+     * Check if array contains string key
+     * @param  mixed[] $array
+     */
+    private function hasKeyStrings(array $array): bool
+    {
+        return count(array_filter(array_keys($array), 'is_string')) > 0;
     }
 }
