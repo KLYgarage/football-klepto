@@ -42,12 +42,10 @@ class ClubNameRepo implements RepositoryInterface
     {
         if ($args === null || is_string($args)) {
             $this->loadFromFile($args);
-        } elseif (is_array($args)) {
+        } else {
             $this->loadFromVar(
                 $this->normalizeMappingData($args)
             );
-        } else {
-            throw new \Exception('Unsupported data source', 1);
         }
     }
 

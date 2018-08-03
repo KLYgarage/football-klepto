@@ -66,8 +66,9 @@ class BolaNetHandler implements BolaNetHandlerInterface
     /**
      * Format football-data.org to conform with
      * bola net
+     * @param array|\object
      */
-    private function formatFromFootballData(array $matches, string $league): array
+    private function formatFromFootballData($matches, string $league): array
     {
         if (! is_array($matches)) {
             $matches = (array) $matches;
