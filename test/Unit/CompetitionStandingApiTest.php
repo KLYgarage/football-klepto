@@ -2,13 +2,13 @@
 
 namespace Football\Test;
 
-use Football\Provider;
+use Football\Provider\FootballDataOrg;
 
 class CompetitionStandingApiTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Provider
-     * @var \Football\Provider
+     * @var \Football\Provider\FootballDataOrg
      */
     private $provider;
 
@@ -16,7 +16,7 @@ class CompetitionStandingApiTest extends \PHPUnit\Framework\TestCase
     {
         $env = \loadTestEnv();
 
-        $this->provider = new Provider(
+        $this->provider = new FootballDataOrg(
             $env['API_KEY']
         );
     }
