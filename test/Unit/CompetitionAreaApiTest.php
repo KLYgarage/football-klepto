@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-use Football\Provider;
+use \Football\Provider\FootballDataOrg;
 
 class CompetitionAreaApiTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * provider
      *
-     * @var Provider
+     * @var \Football\Provider\FootballDataOrg
      */
     private $provider;
 
@@ -18,7 +18,7 @@ class CompetitionAreaApiTest extends \PHPUnit\Framework\TestCase
     {
         $env = \loadTestEnv();
 
-        $this->provider = new Provider(
+        $this->provider = new FootballDataOrg(
             $env['API_KEY']
         );
     }
@@ -168,7 +168,7 @@ class CompetitionAreaApiTest extends \PHPUnit\Framework\TestCase
                 'areas' => (string) $areaId,
             ];
 
-            $competitionsByArea = $this->provider->listCompetitionByArea($filter);
+            $competitionsByArea = $this->provider->listCompetitions($filter);
 
             $this->assertNotNull($competitionsByArea);
         } catch (\Throwable $e) {

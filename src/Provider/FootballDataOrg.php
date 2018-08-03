@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Football;
+namespace Football\Provider;
 
 use \GuzzleHttp\Client;
 
@@ -9,7 +9,7 @@ use \GuzzleHttp\Client;
  * Football API
  * For details, please visit : https://www.football-data.org/documentation/quickstart
  */
-class Provider
+class FootballDataOrg implements ProviderInterface
 {
     /**
      * Server address
@@ -72,27 +72,9 @@ class Provider
     }
 
     /**
-     * List all available competitions.
-     * @param  bool|boolean $convertToArray
-     * @return array|\object
+     * @inheritDoc
      */
-    public function listCompetitions(bool $convertToArray = true)
-    {
-        return json_decode(
-            (string) $this->httpClient->request(
-                'GET',
-                self::COMPETITION_ENDPOINT
-            )->getBody(),
-            $convertToArray
-        );
-    }
-
-    /**
-     * List all available competitions by area
-     * @param  bool|boolean $convertToArray
-     * @return array|\object
-     */
-    public function listCompetitionByArea(
+    public function listCompetitions(
         array $filter = ['areas' => ''],
         bool $convertToArray = true
     ) {
@@ -100,6 +82,41 @@ class Provider
             (string) $this->httpClient->request(
                 'GET',
                 self::COMPETITION_ENDPOINT . '?' . http_build_query($filter)
+            )->getBody(),
+            $convertToArray
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function listMatches(
+        array $filter = [
+            'competitions' => '',
+            'dateFrom' => '',
+            'dateTo' => '',
+            'status' => '',
+        ],
+        bool $convertToArray = true
+    ) {
+        return json_decode(
+            (string) $this->httpClient->request(
+                'GET',
+                self::MATCH_ENDPOINT . '?' . http_build_query($filter)
+            )->getBody(),
+            $convertToArray
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function listAreas(bool $convertToArray = true)
+    {
+        return json_decode(
+            (string) $this->httpClient->request(
+                'GET',
+                self::AREA_ENDPOINT
             )->getBody(),
             $convertToArray
         );
@@ -118,21 +135,6 @@ class Provider
             (string) $this->httpClient->request(
                 'GET',
                 self::COMPETITION_ENDPOINT . '/' . (string) $id
-            )->getBody(),
-            $convertToArray
-        );
-    }
-
-    /**
-     * List all available areas
-     * @return array|\object
-     */
-    public function listAreas(bool $convertToArray = true)
-    {
-        return json_decode(
-            (string) $this->httpClient->request(
-                'GET',
-                self::AREA_ENDPOINT
             )->getBody(),
             $convertToArray
         );
@@ -202,29 +204,6 @@ class Provider
             (string) $this->httpClient->request(
                 'GET',
                 self::COMPETITION_ENDPOINT . '/' . (string) $competitionId . '/standings'
-            )->getBody(),
-            $convertToArray
-        );
-    }
-
-    /**
-     * List matches across (a set of) competitions
-     * @param  bool|boolean $convertToArray
-     * @return array|\object
-     */
-    public function listMatches(
-        array $filter = [
-            'competitions' => '',
-            'dateFrom' => '',
-            'dateTo' => '',
-            'status' => '',
-        ],
-        bool $convertToArray = true
-    ) {
-        return json_decode(
-            (string) $this->httpClient->request(
-                'GET',
-                self::MATCH_ENDPOINT . '?' . http_build_query($filter)
             )->getBody(),
             $convertToArray
         );

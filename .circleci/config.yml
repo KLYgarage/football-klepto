@@ -39,7 +39,7 @@ jobs:
             command: |
                 echo 'API_KEY=${API_KEY_2}' >> $BASH_ENV
                 source $BASH_ENV
-      - run: composer run test:match_format_mapper:verbose
+      - run: composer run test:bola_net:verbose
       - run:
             name: Define Environment Variable at Runtime
             command: |
@@ -58,10 +58,5 @@ jobs:
                 echo 'API_KEY=${API_KEY_5}' >> $BASH_ENV
                 source $BASH_ENV
       - run: composer run test:match_team:verbose
-      - run:
-            name: Define Environment Variable at Runtime
-            command: |
-                echo 'API_KEY=${API_KEY_5}' >> $BASH_ENV
-                source $BASH_ENV
-      - run: composer run test:club_name_mapping:verbose
+      - run: composer run test:club_name_repo:verbose
 
