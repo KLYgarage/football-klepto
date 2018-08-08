@@ -171,8 +171,9 @@ class SoccerWay implements ProviderInterface
     /**
      * Get value of domElement by
      * @param  \DOMElement|\DOMNodeList $domElement
+     * @return array|string
      */
-    private function getValueByAttribute(string $attribute, $domElement): string
+    private function getValueByAttribute(string $attribute, $domElement)
     {
         $values = [];
         if (is_iterable($domElement)) {
@@ -186,9 +187,6 @@ class SoccerWay implements ProviderInterface
             }
             return empty($values) ? '' : $values;
         }
-        if ($domElement->hasAttribute($attribute)) {
-            return $domElement->getAttribute($attribute);
-        }
-        return '';
+        return ($domElement->hasAttribute($attribute)) ? $domElement->getAttribute($attribute) : '';
     }
 }
