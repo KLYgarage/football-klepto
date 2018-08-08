@@ -111,7 +111,7 @@ class FootballDataOrg implements ProviderInterface
     /**
      * @inheritDoc
      */
-    public function listAreas(bool $convertToArray = true)
+    public function listAreas(array $filter, bool $convertToArray = true)
     {
         return json_decode(
             (string) $this->httpClient->request(
@@ -123,12 +123,10 @@ class FootballDataOrg implements ProviderInterface
     }
 
     /**
-     * List one particular competition
-     * @param  bool|boolean $convertToArray
-     * @return array|\object
-     */
+     * @inheritDoc
+     **/
     public function getCompetitionById(
-        int $id,
+        $id,
         bool $convertToArray = true
     ) {
         return json_decode(
@@ -141,11 +139,9 @@ class FootballDataOrg implements ProviderInterface
     }
 
     /**
-     * List one particular area.
-     * @param  bool|boolean $convertToArray
-     * @return array|\object
+     * @inheritDoc
      */
-    public function getAreaById(int $id, bool $convertToArray = true)
+    public function getAreaById($id, bool $convertToArray = true)
     {
         return json_decode(
             (string) $this->httpClient->request(
@@ -157,11 +153,9 @@ class FootballDataOrg implements ProviderInterface
     }
 
     /**
-     * Show one particular team
-     * @param  bool|boolean $convertToArray
-     * @return array|\object
+     * @inheritDoc
      */
-    public function getTeamById(int $id, bool $convertToArray = true)
+    public function getTeamById($id, bool $convertToArray = true)
     {
         return json_decode(
             (string) $this->httpClient->request(
@@ -173,12 +167,10 @@ class FootballDataOrg implements ProviderInterface
     }
 
     /**
-     * List all teams for a particular competition
-     * @param  bool|boolean $convertToArray
-     * @return array|\object
+     * @inheritDoc
      */
     public function getTeamByCompetitionId(
-        int $competitionId,
+        $competitionId,
         array $filter = ['stages' => ''],
         bool $convertToArray = true
     ) {
@@ -192,12 +184,10 @@ class FootballDataOrg implements ProviderInterface
     }
 
     /**
-     * Show Standings for a particular competition
-     * @param  bool|boolean $convertToArray
-     * @return array|\object
+     * @inheritDoc
      */
     public function getStandingsByCompetitionId(
-        int $competitionId,
+        $competitionId,
         bool $convertToArray = true
     ) {
         return json_decode(
@@ -210,12 +200,10 @@ class FootballDataOrg implements ProviderInterface
     }
 
     /**
-     * Show one particular match
-     * @param  bool|boolean $convertToArray
-     * @return array|\object
+     * @inheritDoc
      */
     public function getMatchById(
-        int $matchId,
+        $matchId,
         bool $convertToArray = true
     ) {
         return json_decode(

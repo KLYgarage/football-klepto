@@ -24,7 +24,67 @@ interface ProviderInterface
 
     /**
      * List all available areas
+     * with/without criteria
      * @return array|\object
      */
-    public function listAreas(bool $convertToArray);
+    public function listAreas(array $filter, bool $convertToArray);
+
+    /**
+     * List one particular competition
+     * @param  int|string          $id
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
+     */
+    public function getCompetitionById(
+        $id,
+        bool $convertToArray
+    );
+
+    /**
+     * List one particular area.
+     * @param  int|string $id
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
+     */
+    public function getAreaById($id, bool $convertToArray);
+
+    /**
+     * Show one particular team
+     * @param  int|string $id
+     * @return array|\object
+     */
+    public function getTeamById($id, bool $convertToArray);
+
+    /**
+     * List all teams for a particular competition
+     * @param  int|string $competitionId
+     * @return array|\object
+     */
+    public function getTeamByCompetitionId(
+        $competitionId,
+        array $filter,
+        bool $convertToArray
+    );
+
+    /**
+     * Show one particular match
+     * @param  int|string          $matchId
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
+     */
+    public function getMatchById(
+        $matchId,
+        bool $convertToArray
+    );
+
+    /**
+     * Show Standings for a particular competition
+     * @param  int|string
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
+     */
+    public function getStandingsByCompetitionId(
+        $competitionId,
+        bool $convertToArray
+    );
 }
