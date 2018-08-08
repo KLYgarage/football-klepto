@@ -124,9 +124,22 @@ class SoccerWay implements ProviderInterface
     /**
      * @inheritDoc
      */
-    public function getAreaById($id, bool $convertToArray)
+    public function getAreaById($id, bool $convertToArray = true)
     {
-        return [];
+        //load area list
+        //by calling listAreas
+        //filter id field to match
+        //with expected id
+
+        $filter = [
+            self::QUERY_KEY_MENU => self::COMPETITIONS,
+        ];
+
+        $areas = $this->listAreas($filter);
+
+        return array_filter($areas, function ($v, $k) use ($id) {
+            return $v['id'] === (string) $id;
+        }, ARRAY_FILTER_USE_BOTH);
     }
 
     /**

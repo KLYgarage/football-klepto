@@ -34,4 +34,13 @@ class SoccerWayTest extends \PHPUnit\Framework\TestCase
 
         $this->assertNotEmpty($areas);
     }
+
+    public function testGetAreaById(): void
+    {
+        $area = $this->soccerWay->getAreaById(8);
+
+        $this->assertNotNull($area);
+
+        $this->assertNotEmpty($area);
+    }
 }
