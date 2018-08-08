@@ -40,6 +40,7 @@ jobs:
                 echo 'API_KEY=${API_KEY_2}' >> $BASH_ENV
                 source $BASH_ENV
       - run: composer run test:bola_net:verbose
+      - run: composer run test:soccerway:verbose
       - run:
             name: Define Environment Variable at Runtime
             command: |

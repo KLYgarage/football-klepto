@@ -21,5 +21,8 @@
       <testsuite name="bola_net">
           <file>./test/Unit/BolaNetHandlerTest.php</file>
       </testsuite>
+      <testsuite name="soccerway">
+          <file>./test/Unit/SoccerWayTest.php</file>
+      </testsuite>
   </testsuites>
 </phpunit>
