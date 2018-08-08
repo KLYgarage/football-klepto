@@ -137,9 +137,9 @@ class SoccerWay implements ProviderInterface
 
         $areas = $this->listAreas($filter);
 
-        return array_filter($areas, function ($v, $k) use ($id) {
+        return array_filter($areas, function ($v) use ($id) {
             return $v['id'] === (string) $id;
-        }, ARRAY_FILTER_USE_BOTH);
+        });
     }
 
     /**
@@ -200,6 +200,8 @@ class SoccerWay implements ProviderInterface
             }
             return empty($values) ? '' : $values;
         }
-        return ($domElement->hasAttribute($attribute)) ? $domElement->getAttribute($attribute) : '';
+        return ($domElement instanceof \DOMElement
+            && $domElement->hasAttribute($attribute))
+        ? $domElement->getAttribute($attribute) : '';
     }
 }

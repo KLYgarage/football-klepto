@@ -33,6 +33,8 @@ class SoccerWayTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($areas);
 
         $this->assertNotEmpty($areas);
+
+        $this->assertNotSame($areas[0]['id'], '');
     }
 
     public function testGetAreaById(): void
@@ -42,5 +44,7 @@ class SoccerWayTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($area);
 
         $this->assertNotEmpty($area);
+
+        $this->assertNotSame($area[0]['id'], '');
     }
 }
