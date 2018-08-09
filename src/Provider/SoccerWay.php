@@ -91,9 +91,9 @@ class SoccerWay implements ProviderInterface
             $hrefParts = array_values(
                 array_filter(
                     $this->splitSentence(
-                                $el->getAttribute('href'),
-                                '/'
-                            )
+                        $el->getAttribute('href'),
+                        '/'
+                    )
                 )
             );
             array_push(
