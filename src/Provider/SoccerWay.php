@@ -171,10 +171,9 @@ class SoccerWay implements ProviderInterface
 
     /**
      * Get area by name
-     * @param  bool|boolean $convertToArray
      * @return array|\object
      */
-    public function getAreaByName(string $areaName, bool $convertToArray = true)
+    public function getAreaByName(string $areaName)
     {
         //load area list
         //by calling listAreas
