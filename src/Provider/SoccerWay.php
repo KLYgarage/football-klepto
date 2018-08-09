@@ -47,17 +47,57 @@ class SoccerWay implements ProviderInterface
 
     /**
      * @inheritDoc
-     * Calling this function
-     * actually user
-     * could grab list areas
+     * Filter criteria
+     * is based on area
+     * id or name
      */
     public function listCompetitions(
         array $filter = [
-            self::QUERY_KEY_MENU => '',
+            'area' => '',
         ],
         bool $convertToArray = true
     ) {
-        return [];
+        if (empty($filter['area'])) {
+            throw new \Exception('Filter criteria is required', 1);
+        }
+
+        $area = [];
+
+        if (is_numeric($filter['area'])) {
+            $areaId = (int) $filter['area'];
+            $area = $this->getAreaById($areaId);
+        } else {
+            $areaName = $filter['area'];
+            $area = $this->getAreaByName($areaName);
+        }
+
+        // if area
+        // has already
+        // been got
+        // create url
+        // to grab html
+        // from WEB_URL + href
+
+        $crawler = $this->crawlerGate(
+            $area['href'],
+            '#page_competition_1_block_competition_left_tree_1 > ul > li'
+        );
+
+        $competitions = [];
+
+        foreach ($crawler as $competitionNode) {
+            $els = $competitionNode->getElementsByTagName('a');
+            $el = $this->peekDOMNodeList($els);
+            array_push(
+                $competitions,
+                [
+                    'competition_name' => trim($el->nodeValue),
+                    'href' => $el->getAttribute('href'),
+                ]
+            );
+        }
+
+        return $competitions;
     }
 
     /**
@@ -77,20 +117,10 @@ class SoccerWay implements ProviderInterface
         ],
         bool $convertToArray = true
     ) {
-        $rawHtml = (string) $this->webClient->request(
-            'GET',
-            self::COMPETITIONS_ENDPOINT . '?' . http_build_query($filter)
-        )->getBody()->getContents();
-
-        // grab list areas
-        // signed by
-        // [data-area_id]
-
-        $xPath = $this->cssSelector->toXPath('li[data-area_id]');
-
-        $crawler = new Crawler($rawHtml);
-
-        $crawler = $crawler->filterXpath($xPath);
+        $crawler = $this->crawlerGate(
+            self::COMPETITIONS_ENDPOINT . '?' . http_build_query($filter),
+            'li[data-area_id]'
+        );
 
         $areas = [];
 
@@ -137,9 +167,32 @@ class SoccerWay implements ProviderInterface
 
         $areas = $this->listAreas($filter);
 
-        return array_filter($areas, function ($v) use ($id) {
+        return current(array_filter($areas, function ($v) use ($id) {
             return $v['id'] === (string) $id;
-        });
+        }));
+    }
+
+    /**
+     * Get area by name
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
+     */
+    public function getAreaByName(string $areaName, bool $convertToArray = true)
+    {
+        //load area list
+        //by calling listAreas
+        //filter area_name to match
+        //with expected areaName
+
+        $filter = [
+            self::QUERY_KEY_MENU => self::COMPETITIONS,
+        ];
+
+        $areas = $this->listAreas($filter);
+
+        return current(array_filter($areas, function ($v) use ($areaName) {
+            return strtolower($v['area_name']) === strtolower($areaName);
+        }));
     }
 
     /**
@@ -203,5 +256,33 @@ class SoccerWay implements ProviderInterface
         return ($domElement instanceof \DOMElement
             && $domElement->hasAttribute($attribute))
         ? $domElement->getAttribute($attribute) : '';
+    }
+
+    /**
+     * Crawling request gate
+     */
+    private function crawlerGate(string $endpoint, string $css): \Symfony\Component\DomCrawler\Crawler
+    {
+        $rawHtml = (string) $this->webClient->request(
+            'GET',
+            $endpoint
+        )->getBody()->getContents();
+
+        $crawler = new Crawler($rawHtml);
+
+        $xPath = $this->cssSelector->toXPath($css);
+
+        return $crawler->filterXpath($xPath);
+    }
+
+    /**
+     * Peek element of DOMNOdeList
+     */
+    private function peekDOMNodeList(\DOMNodeList $DOMNodeList): \DOMElement
+    {
+        if (! empty($DOMNodeList)) {
+            return $DOMNodeList->item(0);
+        }
+        return new \DOMElement('', '', '');
     }
 }

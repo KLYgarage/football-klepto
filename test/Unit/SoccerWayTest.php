@@ -33,8 +33,6 @@ class SoccerWayTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($areas);
 
         $this->assertNotEmpty($areas);
-
-        $this->assertNotSame($areas[0]['id'], '');
     }
 
     public function testGetAreaById(): void
@@ -44,7 +42,32 @@ class SoccerWayTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($area);
 
         $this->assertNotEmpty($area);
+    }
 
-        $this->assertNotSame($area[0]['id'], '');
+    public function testGetAreaByName(): void
+    {
+        $areaName = 'Italia';
+
+        $area = $this->soccerWay->getAreaByName($areaName);
+
+
+        $this->assertNotNull($area);
+
+        $this->assertNotEmpty($area);
+    }
+
+    public function testListCompetitons(): void
+    {
+        $areaName = 'Italia';
+
+        $filter = [
+            'area' => $areaName,
+        ];
+
+        $competitions = $this->soccerWay->listCompetitions($filter);
+
+        $this->assertNotNull($competitions);
+
+        $this->assertNotEmpty($competitions);
     }
 }
