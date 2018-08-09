@@ -1,0 +1,73 @@
+Array
+(
+    [0] => Array
+        (
+            [id] => 13
+            [competition_name] => Serie A
+            [href] => /national/italy/serie-a/c13/
+        )
+
+    [1] => Array
+        (
+            [id] => 14
+            [competition_name] => Serie B
+            [href] => /national/italy/serie-b/c14/
+        )
+
+    [2] => Array
+        (
+            [id] => 53
+            [competition_name] => Lega Pro
+            [href] => /national/italy/serie-c1/c53/
+        )
+
+    [3] => Array
+        (
+            [id] => 659
+            [competition_name] => Serie D
+            [href] => /national/italy/serie-d/c659/
+        )
+
+    [4] => Array
+        (
+            [id] => 952
+            [competition_name] => Campionato Primavera 1
+            [href] => /national/italy/campionato-nazionale-primavera/c952/
+        )
+
+    [5] => Array
+        (
+            [id] => 1600
+            [competition_name] => Campionato Primavera 2
+            [href] => /national/italy/campionato-primavera-2/c1600/
+        )
+
+    [6] => Array
+        (
+            [id] => 1092
+            [competition_name] => Dante Berretti
+            [href] => /national/italy/dante-berretti/c1092/
+        )
+
+    [7] => Array
+        (
+            [id] => 293
+            [competition_name] => Serie A Women
+            [href] => /national/italy/serie-a-women/c293/
+        )
+
+    [8] => Array
+        (
+            [id] => 457
+            [competition_name] => Serie B Women
+            [href] => /national/italy/serie-a2/c457/
+        )
+
+    [9] => Array
+        (
+            [id] => 100
+            [competition_name] => Other
+            [href] => /national/italy/a100/
+        )
+
+)

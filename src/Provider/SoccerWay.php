@@ -14,13 +14,11 @@ class SoccerWay implements ProviderInterface
 {
     public const WEB_URL = 'https://id.soccerway.com';
 
+    public const CONTENT_ENDPOINT = '/a/block_teams_index_club_teams';
+
     public const QUERY_KEY_MENU = 'ICID';
 
-    public const RESULT_AND_SCHEDULES = 'TN_01';
-
     public const COMPETITIONS = 'TN_02';
-
-    public const TEAMS_ENDPOINT = '/teams/club-teams';
 
     public const COMPETITIONS_ENDPOINT = '/competitions';
 
@@ -61,27 +59,23 @@ class SoccerWay implements ProviderInterface
             throw new \Exception('Filter criteria is required', 1);
         }
 
-        $area = [];
+        $areaId = is_numeric($filter['area']) ? (int) $filter['area']
+         : $this->getAreaByName($filter['area'])['id'];
 
-        if (is_numeric($filter['area'])) {
-            $areaId = (int) $filter['area'];
-            $area = $this->getAreaById($areaId);
-        } else {
-            $areaName = $filter['area'];
-            $area = $this->getAreaByName($areaName);
-        }
+        $param = [
+            'action' => 'expandItem',
+            'block_id' => 'page_teams_1_block_teams_index_club_teams_2',
+            'callback_params' => '{"level":"1"}',
+            'params' => '{"area_id":"' . $areaId . '","level":"2","item_key":"area_id"}',
 
-        // if area
-        // has already
-        // been got
-        // create url
-        // to grab html
-        // from WEB_URL + href
+        ];
+
+
         $crawler = $this->crawlerGate(
-            $area['href'],
-            'div[id*=page_match_1_block_competition_left_tree] > ul > li'
+            self::CONTENT_ENDPOINT,
+            'ul > li',
+            $param
         );
-
 
         $competitions = [];
 
@@ -99,7 +93,7 @@ class SoccerWay implements ProviderInterface
             array_push(
                 $competitions,
                 [
-                    'id' => end($hrefParts),
+                    'id' => $this->filterCharFromSentence(end($hrefParts)),
                     'competition_name' => trim($el->nodeValue),
                     'href' => $el->getAttribute('href'),
                 ]
@@ -224,9 +218,11 @@ class SoccerWay implements ProviderInterface
      * @inheritDoc
      */
     public function getTeamByCompetitionId(
-        $competitionId,
-        array $filter,
-        bool $convertToArray
+        $competitionId = -1,
+        array $filter = [
+            'area' => '',
+        ],
+        bool $convertToArray = true
     ) {
         return [];
     }
@@ -278,12 +274,24 @@ class SoccerWay implements ProviderInterface
     /**
      * Crawling request gate
      */
-    private function crawlerGate(string $endpoint = '', string $css = ''): \Symfony\Component\DomCrawler\Crawler
-    {
-        $rawHtml = (string) $this->webClient->request(
+    private function crawlerGate(
+        string $endpoint = '',
+        string $css = '',
+        array $param = ['']
+    ): \Symfony\Component\DomCrawler\Crawler {
+        $resp = (string) $this->webClient->request(
             'GET',
-            $endpoint
+            $endpoint . '?' . http_build_query($param)
         )->getBody()->getContents();
+
+        // try to decode
+
+        $rawHtml = $resp;
+
+        if (json_decode($resp, true)) {
+            $resp = json_decode($resp, true);
+            $rawHtml = $resp['commands'][0]['parameters']['content'];
+        }
 
         $crawler = new Crawler($rawHtml);
 
@@ -309,5 +317,16 @@ class SoccerWay implements ProviderInterface
     private function splitSentence(string $sentence = '', string $delimiter = ''): array
     {
         return explode($delimiter, $sentence);
+    }
+
+    /**
+     * Filter char from sentence
+     * Only picks number
+     */
+    private function filterCharFromSentence(string $str): string
+    {
+        $result = preg_replace('/[^0-9]/', '', $str);
+
+        return ! empty($result) ? $result : $str;
     }
 }

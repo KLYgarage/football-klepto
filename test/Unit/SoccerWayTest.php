@@ -82,9 +82,6 @@ class SoccerWayTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetCompetitionById(array $param = [''])
     {
-        $areaName = 'Italia';
-
-
         $competition = $this->soccerWay->getCompetitionById(
             $param[0][0]['id'],
             $param[1]
