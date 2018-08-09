@@ -56,7 +56,10 @@ class SoccerWayTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($area);
     }
 
-    public function testListCompetitons(): void
+    /**
+     * Test list competitions
+     */
+    public function testListCompetitions(): array
     {
         $areaName = 'Italia';
 
@@ -69,5 +72,28 @@ class SoccerWayTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($competitions);
 
         $this->assertNotEmpty($competitions);
+
+        return [$competitions, $filter];
+    }
+
+    /**
+     * @depends testListCompetitions
+     * @return array
+     */
+    public function testGetCompetitionById(array $param = [''])
+    {
+        $areaName = 'Italia';
+
+
+        $competition = $this->soccerWay->getCompetitionById(
+            $param[0][0]['id'],
+            $param[1]
+        );
+
+        $this->assertNotNull($competition);
+
+        $this->assertNotEmpty($competition);
+
+        $this->assertSame($competition, $param[0][0]);
     }
 }

@@ -77,20 +77,29 @@ class SoccerWay implements ProviderInterface
         // create url
         // to grab html
         // from WEB_URL + href
-
         $crawler = $this->crawlerGate(
             $area['href'],
-            '#page_competition_1_block_competition_left_tree_1 > ul > li'
+            'div[id*=page_match_1_block_competition_left_tree] > ul > li'
         );
+
 
         $competitions = [];
 
         foreach ($crawler as $competitionNode) {
             $els = $competitionNode->getElementsByTagName('a');
             $el = $this->peekDOMNodeList($els);
+            $hrefParts = array_values(
+                array_filter(
+                    $this->splitSentence(
+                                $el->getAttribute('href'),
+                                '/'
+                            )
+                )
+            );
             array_push(
                 $competitions,
                 [
+                    'id' => end($hrefParts),
                     'competition_name' => trim($el->nodeValue),
                     'href' => $el->getAttribute('href'),
                 ]
@@ -98,6 +107,25 @@ class SoccerWay implements ProviderInterface
         }
 
         return $competitions;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCompetitionById(
+        $id,
+        array $filter = [
+            'area' => '',
+        ],
+        bool $convertToArray = true
+    ) {
+        $competitions = $this->listCompetitions($filter);
+
+        return current(
+            array_filter($competitions, function ($v) use ($id) {
+                return $v['id'] === $id;
+            })
+        );
     }
 
     /**
@@ -142,13 +170,26 @@ class SoccerWay implements ProviderInterface
     }
 
     /**
-     * @inheritDoc
+     * Get area by name
+     * @param  bool|boolean $convertToArray
+     * @return array|\object
      */
-    public function getCompetitionById(
-        $id,
-        bool $convertToArray
-    ) {
-        return [];
+    public function getAreaByName(string $areaName, bool $convertToArray = true)
+    {
+        //load area list
+        //by calling listAreas
+        //filter area_name to match
+        //with expected areaName
+
+        $filter = [
+            self::QUERY_KEY_MENU => self::COMPETITIONS,
+        ];
+
+        $areas = $this->listAreas($filter);
+
+        return current(array_filter($areas, function ($v) use ($areaName) {
+            return strtolower($v['area_name']) === strtolower($areaName);
+        }));
     }
 
     /**
@@ -169,29 +210,6 @@ class SoccerWay implements ProviderInterface
 
         return current(array_filter($areas, function ($v) use ($id) {
             return $v['id'] === (string) $id;
-        }));
-    }
-
-    /**
-     * Get area by name
-     * @param  bool|boolean $convertToArray
-     * @return array|\object
-     */
-    public function getAreaByName(string $areaName, bool $convertToArray = true)
-    {
-        //load area list
-        //by calling listAreas
-        //filter area_name to match
-        //with expected areaName
-
-        $filter = [
-            self::QUERY_KEY_MENU => self::COMPETITIONS,
-        ];
-
-        $areas = $this->listAreas($filter);
-
-        return current(array_filter($areas, function ($v) use ($areaName) {
-            return strtolower($v['area_name']) === strtolower($areaName);
         }));
     }
 
@@ -261,7 +279,7 @@ class SoccerWay implements ProviderInterface
     /**
      * Crawling request gate
      */
-    private function crawlerGate(string $endpoint, string $css): \Symfony\Component\DomCrawler\Crawler
+    private function crawlerGate(string $endpoint = '', string $css = ''): \Symfony\Component\DomCrawler\Crawler
     {
         $rawHtml = (string) $this->webClient->request(
             'GET',
@@ -278,11 +296,19 @@ class SoccerWay implements ProviderInterface
     /**
      * Peek element of DOMNOdeList
      */
-    private function peekDOMNodeList(\DOMNodeList $DOMNodeList): \DOMElement
+    private function peekDOMNodeList(\DOMNodeList $DOMNodeList): ?\DOMElement
     {
         if (! empty($DOMNodeList)) {
             return $DOMNodeList->item(0);
         }
         return new \DOMElement('', '', '');
+    }
+
+    /**
+     * Split sentence by delimiter
+     */
+    private function splitSentence(string $sentence = '', string $delimiter = ''): array
+    {
+        return explode($delimiter, $sentence);
     }
 }

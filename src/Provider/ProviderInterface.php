@@ -37,6 +37,7 @@ interface ProviderInterface
      */
     public function getCompetitionById(
         $id,
+        array $filter,
         bool $convertToArray
     );
 

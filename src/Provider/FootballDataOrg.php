@@ -127,6 +127,7 @@ class FootballDataOrg implements ProviderInterface
      **/
     public function getCompetitionById(
         $id,
+        array $filter = [''],
         bool $convertToArray = true
     ) {
         return json_decode(
