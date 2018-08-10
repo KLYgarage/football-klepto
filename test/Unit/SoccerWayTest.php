@@ -144,8 +144,6 @@ class SoccerWayTest extends \PHPUnit\Framework\TestCase
         $this->assertNotFalse($matches);
 
         $this->assertNotEmpty($matches);
-
-        //print_r($matches);
     }
 
     public function testListMatchesInggris(): void

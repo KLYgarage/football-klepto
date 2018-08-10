@@ -18,6 +18,10 @@ class SoccerWay implements ProviderInterface
 
     public const COMPETITION_MATCHES_SUMMARY_ENDPOINT = '/a/block_competition_matches_summary';
 
+    public const MATCH_FIELD = 'Pertandingan';
+
+    public const DEFAULT_GAME_WEEK = 38;
+
     public const QUERY_KEY_MENU = 'ICID';
 
     public const COMPETITIONS = 'TN_02';
@@ -152,118 +156,65 @@ class SoccerWay implements ProviderInterface
         ],
         bool $convertToArray = true
 ) {
-        try {
-            $competition = $this->getCompetitionByName(
-                $filter['competitionName'],
-                $filter
+        $competition = $this->getCompetitionByName(
+            $filter['competitionName'],
+            $filter
+        );
+
+        $roundId = $this->getRoundId($competition['href'], 'h2 > a');
+
+        $competitionId = $competition['id'];
+
+        // crawl again
+        $counter = 0;
+
+        $matches = [];
+
+        while ($counter < self::DEFAULT_GAME_WEEK) {
+            $param = [
+
+                'action' => 'changePage',
+                'block_id' => 'page_competition_1_block_competition_matches_summary_5',
+                'callback_params' => '{"page":"' . ($counter - 1) . '","block_service_id":"competition_summary_block_competitionmatchessummary","round_id":"' . $roundId . '","outgroup":"","view":"2","competition_id":"' . $competitionId . '"}',
+                'params' => '{"page":"' . ($counter) . '"}',
+
+            ];
+
+            $matchCrawler = $this->crawlerGate(
+                self::COMPETITION_MATCHES_SUMMARY_ENDPOINT,
+                'table > tbody > tr',
+                $param
             );
 
-            $nodeValueExpected = 'Pertandingan';
+            foreach ($matchCrawler as $matchNode) {
+                $els = $matchNode->getElementsByTagName('td');
+                // get time
+                // column 2 date
+                // column 4 time
+                // column 3, club home
+                $clubHome = trim($els->item(2)->nodeValue);
 
-            $crawler = $this->crawlerGate(
-                $competition['href'],
-                'h2 > a'
-            )->reduce(function (Crawler $node) use ($nodeValueExpected) {
-                return strtolower(
-                    trim($node->text())
-                ) === strtolower($nodeValueExpected);
-            });
+                $clubAway = trim($els->item(4)->nodeValue);
 
-            // get current url
+                $detailEl = $els->item($els->length - 1)->getElementsByTagName('a')->item(0)->getAttribute('href');
 
-            $currentUrl = $this->getValueByAttribute('href', $crawler);
-
-            // if it is array
-            // peek
-            if (is_array($currentUrl)) {
-                $currentUrl = $this->peekArray($currentUrl);
+                array_push($matches, [
+                    'schedule_ina' => $this->createMatchTime(
+                        $els->item(1)->nodeValue,
+                        $els->item(3)->nodeValue
+                    ),
+                    'club_home' => $clubHome,
+                    'club_away' => $clubAway,
+                    'url_detail_match' => $detailEl,
+                    'week' => $counter + 1,
+                ]);
             }
 
-
-            // get round_id
-            // usually stores
-            // in url
-            $urlParts = $this->splitSentence((string) $currentUrl, '/');
-            $urlParts = array_filter($urlParts, function ($v) {
-                $txt = $this->filterCharFromSentence($v);
-                return is_numeric($txt);
-            });
-            $urlParts = array_values($urlParts);
-            $roundId = $this->filterCharFromSentence(end(
-                $urlParts
-            ));
-
-            $competitionId = $competition['id'];
-
-            // crawl again
-            $counter = 0;
-
-            $gameWeek = 38;
-
-            $matches = [];
-
-            while ($counter < $gameWeek) {
-                $param = [
-
-                    'action' => 'changePage',
-                    'block_id' => 'page_competition_1_block_competition_matches_summary_5',
-                    'callback_params' => '{"page":"' . ($counter - 1) . '","block_service_id":"competition_summary_block_competitionmatchessummary","round_id":"' . $roundId . '","outgroup":"","view":"2","competition_id":"' . $competitionId . '"}',
-                    'params' => '{"page":"' . ($counter) . '"}',
-
-                ];
-
-                $matchCrawler = $this->crawlerGate(
-                    self::COMPETITION_MATCHES_SUMMARY_ENDPOINT,
-                    'table > tbody > tr',
-                    $param
-                );
-
-                foreach ($matchCrawler as $matchNode) {
-                    $els = $matchNode->getElementsByTagName('td');
-
-
-                    // get time
-                    // column 2 date
-                    // column 4 time
-                    // column 3, club home
-                    $clubHome = trim($els->item(2)->nodeValue);
-
-                    $clubAway = trim($els->item(4)->nodeValue);
-
-                    $detailEl = $els->item($els->length - 1)->getElementsByTagName('a')->item(0)->getAttribute('href');
-
-
-                    $timeParts = $this->splitSentence(str_replace(' ', '', trim($els->item(3)->nodeValue)), ':');
-
-                    $matchTime = '';
-
-                    if (count($timeParts) > 1) {
-                        $matchTime = \DateTime::createFromFormat('d/m/y', trim($els->item(1)->nodeValue));
-
-                        $matchTime->setTimeZone(new \DateTimeZone('Asia/Jakarta'));
-
-                        $matchTime->setTime((int) $timeParts[0], (int) $timeParts[1], 0);
-                    }
-
-                    array_push($matches, [
-                        'schedule_ina' => ($matchTime !== '') ? $matchTime->format('d-m-Y H:i') : '',
-                        'club_home' => $clubHome,
-                        'club_away' => $clubAway,
-                        'url_detail_match' => $detailEl,
-                        'week' => $counter + 1,
-                    ]);
-                }
-
-                $counter++;
-            }
-
-
-            return $matches;
-        } catch (\Throwable $e) {
-            echo $e->getMessage() . "\n";
-
-            return false;
+            $counter++;
         }
+
+
+        return $matches;
     }
 
     /**
@@ -537,5 +488,70 @@ class SoccerWay implements ProviderInterface
     {
         $top = current($array);
         return $top ?: [];
+    }
+
+    private function createMatchTime(string $date = '', string $time = '', string $format = 'd-m-Y H:i'): string
+    {
+        if (! empty($date) && ! empty($time)) {
+            $timeParts = $this->splitSentence(str_replace(' ', '', trim($time)), ':');
+
+
+            if (count($timeParts) > 1) {
+                $matchTime = \DateTime::createFromFormat('d/m/y', trim($date));
+
+                $matchTime->setTimeZone(new \DateTimeZone('Asia/Jakarta'));
+
+                $matchTime->setTime((int) $timeParts[0], (int) $timeParts[1], 0);
+
+                return $matchTime->format($format);
+            }
+
+            return '';
+        }
+
+        return '';
+    }
+
+    /**
+     * Get round id from competition
+     * By crawling to competition href
+     */
+    private function getRoundId(string $competitionHref = '', string $css = ''): string
+    {
+        $nodeValueExpected = self::MATCH_FIELD;
+
+        $crawler = $this->crawlerGate(
+            $competitionHref,
+            $css
+        )->reduce(function (Crawler $node) use ($nodeValueExpected) {
+            return strtolower(
+                trim($node->text())
+            ) === strtolower($nodeValueExpected);
+        });
+
+        // get current url
+
+        $currentUrl = $this->getValueByAttribute('href', $crawler);
+
+        // if it is array
+        // peek
+        if (is_array($currentUrl)) {
+            $currentUrl = $this->peekArray($currentUrl);
+        }
+        // get round_id
+        // usually stores
+        // in url
+        $urlParts = array_values(
+            array_filter($this->splitSentence((string) $currentUrl, '/'), function ($v) {
+                $txt = $this->filterCharFromSentence($v);
+                return is_numeric($txt);
+            })
+        );
+
+        return $this->filterCharFromSentence(
+            end(
+                $urlParts
+            )
+        );
     }
 }
