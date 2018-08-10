@@ -132,8 +132,7 @@ class SoccerWay implements ProviderInterface
         string $competitionName = '',
         array $filter = [
             'area' => '',
-        ],
-        bool $convertToArray = true
+        ]
     ): array {
         $competitions = $this->listCompetitions($filter);
 
