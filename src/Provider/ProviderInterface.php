@@ -54,7 +54,11 @@ interface ProviderInterface
      * @param  int|string $id
      * @return array|\object
      */
-    public function getTeamById($id, bool $convertToArray);
+    public function getTeamById(
+        $id,
+        array $filter,
+        bool $convertToArray
+);
 
     /**
      * List all teams for a particular competition

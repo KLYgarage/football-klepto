@@ -209,8 +209,35 @@ class SoccerWay implements ProviderInterface
     /**
      * @inheritDoc
      */
-    public function getTeamById($id, bool $convertToArray)
-    {
+    public function getTeamById(
+        $id,
+        array $filter = [
+            'area' => '',
+        ],
+        bool $convertToArray = true
+    ) {
+        if (empty($filter['area'])) {
+            throw new \Exception('Filter criteria is required', 1);
+        }
+
+        $competitions = $this->listCompetitions($filter);
+
+        foreach ($competitions as $competition) {
+            $teams = $this->getTeamByCompetitionId(
+                $competition['id']
+            );
+
+            $team = array_filter($teams, function ($v) use ($id) {
+                return $v['id'] === (string) $id;
+            });
+
+            if (! empty($team)) {
+                return current(
+                    $team
+                );
+            }
+        }
+
         return [];
     }
 
@@ -218,13 +245,50 @@ class SoccerWay implements ProviderInterface
      * @inheritDoc
      */
     public function getTeamByCompetitionId(
-        $competitionId = -1,
+        $competitionId,
         array $filter = [
             'area' => '',
         ],
         bool $convertToArray = true
     ) {
-        return [];
+        $param = [
+            'action' => 'expandItem',
+            'block_id' => 'page_teams_1_block_teams_index_club_teams_2',
+            'callback_params' => '{"level":"2"}',
+            'params' => '{"competition_id":"' . $competitionId . '","level":"3","item_key":"competition_id"}',
+
+        ];
+
+        $crawler = $this->crawlerGate(
+            self::CONTENT_ENDPOINT,
+            'ul > li',
+            $param
+        );
+
+        $teams = [];
+
+        foreach ($crawler as $teamNodes) {
+            $els = $teamNodes->getElementsByTagName('a');
+            $el = $this->peekDOMNodeList($els);
+            $hrefParts = array_values(
+                array_filter(
+                    $this->splitSentence(
+                        $el->getAttribute('href'),
+                        '/'
+                    )
+                )
+            );
+            array_push(
+                $teams,
+                [
+                    'id' => $this->filterCharFromSentence(end($hrefParts)),
+                    'team_name' => trim($el->nodeValue),
+                    'href' => $el->getAttribute('href'),
+                ]
+            );
+        }
+
+        return $teams;
     }
 
     /**

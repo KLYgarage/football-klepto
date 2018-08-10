@@ -156,8 +156,11 @@ class FootballDataOrg implements ProviderInterface
     /**
      * @inheritDoc
      */
-    public function getTeamById($id, bool $convertToArray = true)
-    {
+    public function getTeamById(
+        $id,
+        array $filter = [''],
+        bool $convertToArray = true
+    ) {
         return json_decode(
             (string) $this->httpClient->request(
                 'GET',
