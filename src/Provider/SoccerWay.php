@@ -126,7 +126,6 @@ class SoccerWay implements ProviderInterface
 
     /**
      * Get competition by name
-     * @param  bool|boolean $convertToArray
      */
     public function getCompetitionByName(
         string $competitionName = '',
