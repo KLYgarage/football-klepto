@@ -90,6 +90,7 @@ interface ProviderInterface
      */
     public function getStandingsByCompetitionId(
         $competitionId,
+        array $filter,
         bool $convertToArray
     );
 }

@@ -93,6 +93,8 @@ class SoccerWayTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($competition);
 
         $this->assertSame($competition, $param[0][0]);
+
+        //print_r($competition);
     }
 
     public function testGetTeamByCompetitionId(): void
@@ -160,5 +162,15 @@ class SoccerWayTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($matches);
 
         //print_r($matches);
+    }
+
+    public function testGetStandingsByCompetitionId(): void
+    {
+        $filter = [
+            'area' => 'Italia',
+        ];
+        $standings = $this->soccerWay->getStandingsByCompetitionId('13', $filter);
+        $this->assertNotNull($standings);
+        $this->assertNotEmpty($standings);
     }
 }

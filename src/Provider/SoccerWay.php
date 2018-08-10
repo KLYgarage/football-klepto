@@ -18,6 +18,8 @@ class SoccerWay implements ProviderInterface
 
     public const COMPETITION_MATCHES_SUMMARY_ENDPOINT = '/a/block_competition_matches_summary';
 
+    public const COMPETITION_TABLE_ENDPOINT = '/a/block_competition_tables';
+
     public const MATCH_FIELD = 'Pertandingan';
 
     public const DEFAULT_GAME_WEEK = 38;
@@ -392,9 +394,57 @@ class SoccerWay implements ProviderInterface
      */
     public function getStandingsByCompetitionId(
         $competitionId,
-        bool $convertToArray
+        array $filter = [
+            'area' => '',
+        ],
+        bool $convertToArray = true
     ) {
-        return [];
+        $competition = $this->getCompetitionById($competitionId, $filter);
+
+        $roundId = $this->getRoundId($competition['href'], 'h2 > a');
+
+        $seasonId = $this->getSeasonId($competition['href'], '#season_id_selector > option');
+
+        $param = [
+
+            'action' => 'changeTable',
+            'block_id' => 'page_competition_1_block_competition_tables_7',
+            'callback_params' => '{"season_id":' . $seasonId . ',"round_id":' . $roundId . ',"outgroup":false,"competition_id":' . $competitionId . ',"new_design_callback":false}',
+            'params' => '{"type":"competition_league_table"}',
+
+        ];
+
+        $standingsCrawler = $this->crawlerGate(
+            self::COMPETITION_TABLE_ENDPOINT,
+            'table > tbody > tr',
+            $param
+        );
+
+        $standings = [];
+
+
+        foreach ($standingsCrawler as $standing) {
+            $els = $standing->getElementsByTagName('td');
+            $rank = trim($els->item(0)->nodeValue);
+            $clubName = trim($els->item(2)->nodeValue);
+            $play = trim($els->item(3)->nodeValue);
+            $win = trim($els->item(4)->nodeValue);
+            $draw = trim($els->item(5)->nodeValue);
+            $lose = trim($els->item(6)->nodeValue);
+            $points = trim($els->item(10)->nodeValue);
+            array_push(
+                $standings,
+                ['rank' => $rank,
+                    'clubName' => $clubName,
+                    'play' => $play,
+                    'win' => $win,
+                    'draw' => $draw,
+                    'lose' => $lose,
+                    'points' => $points, ]
+            );
+        }
+
+        return $standings;
     }
 
     /**
@@ -490,6 +540,9 @@ class SoccerWay implements ProviderInterface
         return $top ?: [];
     }
 
+    /**
+     * create match time
+     */
     private function createMatchTime(string $date = '', string $time = '', string $format = 'd-m-Y H:i'): string
     {
         if (! empty($date) && ! empty($time)) {
@@ -553,5 +606,33 @@ class SoccerWay implements ProviderInterface
                 $urlParts
             )
         );
+    }
+
+    /**
+     * Get season id
+     * currently
+     * it is located in select button
+     */
+    private function getSeasonId(string $competitionHref = '', string $css = ''): string
+    {
+        $crawler = $this->crawlerGate(
+            $competitionHref,
+            $css
+        );
+        $filtered = [];
+        foreach ($crawler as $node) {
+            if (! empty($node->attributes->getNamedItem('selected'))) {
+                array_push($filtered, $node);
+            }
+        }
+
+        $urlParts = array_values(
+            array_filter($this->splitSentence((string) $this->getValueByAttribute('value', $filtered), '/'), function ($v) {
+                $txt = $this->filterCharFromSentence($v);
+                return is_numeric($txt);
+            })
+        );
+
+        return $this->filterCharFromSentence(end($urlParts));
     }
 }

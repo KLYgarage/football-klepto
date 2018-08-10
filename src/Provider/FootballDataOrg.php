@@ -192,6 +192,7 @@ class FootballDataOrg implements ProviderInterface
      */
     public function getStandingsByCompetitionId(
         $competitionId,
+        array $filter = [''],
         bool $convertToArray = true
     ) {
         return json_decode(
