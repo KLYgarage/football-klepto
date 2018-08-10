@@ -16,6 +16,8 @@ class SoccerWay implements ProviderInterface
 
     public const CONTENT_ENDPOINT = '/a/block_teams_index_club_teams';
 
+    public const COMPETITION_MATCHES_SUMMARY_ENDPOINT = '/a/block_competition_matches_summary';
+
     public const QUERY_KEY_MENU = 'ICID';
 
     public const COMPETITIONS = 'TN_02';
@@ -123,11 +125,150 @@ class SoccerWay implements ProviderInterface
     }
 
     /**
+     * Get competition by name
+     * @param  bool|boolean $convertToArray
+     */
+    public function getCompetitionByName(
+        string $competitionName = '',
+        array $filter = [
+            'area' => '',
+        ],
+        bool $convertToArray = true
+    ): array {
+        $competitions = $this->listCompetitions($filter);
+
+        return current(
+            array_filter($competitions, function ($v) use ($competitionName) {
+                return $competitionName === $v['competition_name'];
+            })
+        );
+    }
+
+    /**
      * @inheritDoc
      */
-    public function listMatches(array $filter, bool $convertToArray)
-    {
-        return [];
+    public function listMatches(
+        array $filter = [
+            'area' => '',
+            'competitionName' => '',
+        ],
+        bool $convertToArray = true
+) {
+        try {
+            $competition = $this->getCompetitionByName(
+                $filter['competitionName'],
+                $filter
+            );
+
+            $nodeValueExpected = 'Pertandingan';
+
+            $crawler = $this->crawlerGate(
+                $competition['href'],
+                'h2 > a'
+            )->reduce(function (Crawler $node, $i) use ($nodeValueExpected) {
+                return strtolower(
+                    trim($node->text())
+                ) === strtolower($nodeValueExpected);
+            });
+
+            // get current url
+
+            $currentUrl = $this->getValueByAttribute('href', $crawler);
+
+            // if it is array
+            // peek
+            if (is_array($currentUrl)) {
+                $currentUrl = $this->peekArray($currentUrl);
+            }
+
+
+            // get round_id
+            // usually stores
+            // in url
+            $urlParts = $this->splitSentence($currentUrl, '/');
+            $urlParts = array_filter($urlParts, function ($v) {
+                $txt = $this->filterCharFromSentence($v);
+                return is_numeric($txt);
+            });
+            $urlParts = array_values($urlParts);
+            $roundId = $this->filterCharFromSentence(end(
+                $urlParts
+            ));
+
+            $competitionId = $competition['id'];
+
+            //print_r($competitionId);
+            // crawl again
+            $counter = 0;
+
+            $gameWeek = 38;
+
+            while ($counter < $gameWeek) {
+                $param = [
+
+                    'action' => 'changePage',
+                    'block_id' => 'page_competition_1_block_competition_matches_summary_5',
+                    'callback_params' => '{"page":"' . ($counter - 1) . '","block_service_id":"competition_summary_block_competitionmatchessummary","round_id":"' . $roundId . '","outgroup":"","view":"2","competition_id":"' . $competitionId . '"}',
+                    'params' => '{"page":"' . ($counter) . '"}',
+
+                ];
+
+                $matchCrawler = $this->crawlerGate(
+                    self::COMPETITION_MATCHES_SUMMARY_ENDPOINT,
+                    'table > tbody > tr',
+                    $param
+                );
+
+                $matches = [];
+
+                foreach ($matchCrawler as $matchNode) {
+                    $els = $matchNode->getElementsByTagName('td');
+
+
+                    // get time
+                    // column 2 date
+                    // column 4 time
+
+                    // $matchTime = trim($els->item(1)->nodeValue)." ".str_replace(' ','',trim($els->item(3)->nodeValue));
+                    // column 3, club home
+                    $clubHome = trim($els->item(2)->nodeValue);
+
+                    $clubAway = trim($els->item(4)->nodeValue);
+
+                    $detailEl = $els->item($els->length - 1)->getElementsByTagName('a')->item(0)->getAttribute('href');
+
+
+                    $timeParts = $this->splitSentence(str_replace(' ', '', trim($els->item(3)->nodeValue)), ':');
+
+                    $matchTime = '';
+
+                    if (count($timeParts) > 1) {
+                        $matchTime = \DateTime::createFromFormat('d/m/y', trim($els->item(1)->nodeValue));
+
+                        $matchTime->setTimeZone(new \DateTimeZone('Asia/Jakarta'));
+
+                        $matchTime->setTime((int) $timeParts[0], (int) $timeParts[1], 0);
+                    }
+
+                    array_push($matches, [
+                        'schedule_ina' => ($matchTime !== '') ? $matchTime->format('d-m-Y H:i') : '',
+                        'club_home' => $clubHome,
+                        'club_away' => $clubAway,
+                        'url_detail_match' => $detailEl,
+                        'week' => $counter + 1,
+                    ]);
+                }
+
+                $counter++;
+            }
+
+
+            return $matches;
+        } catch (\Throwable $e) {
+            echo $e->getMessage() . "\n";
+
+            return false;
+        }
     }
 
     /**
@@ -392,5 +533,15 @@ class SoccerWay implements ProviderInterface
         $result = preg_replace('/[^0-9]/', '', $str);
 
         return ! empty($result) ? $result : $str;
+    }
+
+    /**
+     * Peek array
+     * @return mixed
+     */
+    private function peekArray(array $array)
+    {
+        $top = current($array);
+        return $top ?: [];
     }
 }

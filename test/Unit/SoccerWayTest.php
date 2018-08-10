@@ -50,7 +50,6 @@ class SoccerWayTest extends \PHPUnit\Framework\TestCase
 
         $area = $this->soccerWay->getAreaByName($areaName);
 
-
         $this->assertNotNull($area);
 
         $this->assertNotEmpty($area);
@@ -72,6 +71,8 @@ class SoccerWayTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($competitions);
 
         $this->assertNotEmpty($competitions);
+
+        //print_r($competitions);
 
         return [$competitions, $filter];
     }
@@ -116,5 +117,50 @@ class SoccerWayTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($team);
 
         $this->assertNotEmpty($team);
+    }
+
+    public function testGetCompetitonByName(): void
+    {
+        $filter = [
+            'area' => 'Italia',
+        ];
+
+        $competition = $this->soccerWay->getCompetitionByName('Serie A', $filter);
+
+        $this->assertNotNull($competition);
+
+        $this->assertNotEmpty($competition);
+    }
+
+    public function testListMatches(): void
+    {
+        $filter = [
+            'area' => 'Italia',
+            'competitionName' => 'Serie A',
+        ];
+
+        $matches = $this->soccerWay->listMatches($filter);
+
+        $this->assertNotFalse($matches);
+
+        $this->assertNotEmpty($matches);
+
+        //print_r($matches);
+    }
+
+    public function testListMatchesInggris(): void
+    {
+        $filter = [
+            'area' => 'Inggris',
+            'competitionName' => 'Liga Primer',
+        ];
+
+        $matches = $this->soccerWay->listMatches($filter);
+
+        $this->assertNotFalse($matches);
+
+        $this->assertNotEmpty($matches);
+
+        //print_r($matches);
     }
 }
