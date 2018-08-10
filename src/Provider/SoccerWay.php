@@ -165,7 +165,7 @@ class SoccerWay implements ProviderInterface
             $crawler = $this->crawlerGate(
                 $competition['href'],
                 'h2 > a'
-            )->reduce(function (Crawler $node, $i) use ($nodeValueExpected) {
+            )->reduce(function (Crawler $node) use ($nodeValueExpected) {
                 return strtolower(
                     trim($node->text())
                 ) === strtolower($nodeValueExpected);
@@ -185,7 +185,7 @@ class SoccerWay implements ProviderInterface
             // get round_id
             // usually stores
             // in url
-            $urlParts = $this->splitSentence($currentUrl, '/');
+            $urlParts = $this->splitSentence((string) $currentUrl, '/');
             $urlParts = array_filter($urlParts, function ($v) {
                 $txt = $this->filterCharFromSentence($v);
                 return is_numeric($txt);
@@ -197,11 +197,12 @@ class SoccerWay implements ProviderInterface
 
             $competitionId = $competition['id'];
 
-            //print_r($competitionId);
             // crawl again
             $counter = 0;
 
             $gameWeek = 38;
+
+            $matches = [];
 
             while ($counter < $gameWeek) {
                 $param = [
@@ -219,8 +220,6 @@ class SoccerWay implements ProviderInterface
                     $param
                 );
 
-                $matches = [];
-
                 foreach ($matchCrawler as $matchNode) {
                     $els = $matchNode->getElementsByTagName('td');
 
@@ -228,8 +227,6 @@ class SoccerWay implements ProviderInterface
                     // get time
                     // column 2 date
                     // column 4 time
-
-                    // $matchTime = trim($els->item(1)->nodeValue)." ".str_replace(' ','',trim($els->item(3)->nodeValue));
                     // column 3, club home
                     $clubHome = trim($els->item(2)->nodeValue);
 
@@ -288,7 +285,6 @@ class SoccerWay implements ProviderInterface
         $areas = [];
 
         foreach ($crawler as $areaNode) {
-            //$areaNodes = $domElement->getElementsByTagName('a');
             $area = [
                 'id' => $this->getValueByAttribute('data-area_id', $areaNode),
                 'area_name' => trim($areaNode->nodeValue),
@@ -454,7 +450,7 @@ class SoccerWay implements ProviderInterface
 
     /**
      * Get value of domElement by
-     * @param  \DOMElement|\DOMNodeList $domElement
+     * @param  \DOMElement|\DOMNodeList|\Symfony\Component\DomCrawler\Crawler $domElement
      * @return array|string
      */
     private function getValueByAttribute(string $attribute, $domElement)

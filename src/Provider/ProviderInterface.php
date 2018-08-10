@@ -18,7 +18,7 @@ interface ProviderInterface
     /**
      * List matches
      * with/without criteria
-     * @return array|\object
+     * @return array|\object|boolean
      */
     public function listMatches(array $filter, bool $convertToArray);
 
