@@ -201,6 +201,7 @@ class SoccerWay implements ProviderInterface
                 $detailEl = $els->item($els->length - 1)->getElementsByTagName('a')->item(0)->getAttribute('href');
 
                 array_push($matches, [
+                    'id'=>$this->getIdFromHref($detailEl),
                     'schedule_ina' => $this->createMatchTime(
                         $els->item(1)->nodeValue,
                         $els->item(3)->nodeValue
@@ -384,9 +385,27 @@ class SoccerWay implements ProviderInterface
      */
     public function getMatchById(
         $matchId,
-        bool $convertToArray
+        array $filter = array(
+            'competitionId'=>'',
+            'area'=>'',
+            'competitionName'=>''
+        ),
+        bool $convertToArray = true
     ) {
-        return [];
+
+        $competition = $this->getCompetitionById($filter['competitionId'], $filter);
+
+        $roundId = $this->getRoundId($competition['href'], 'h2 > a');
+
+        $seasonId = $this->getSeasonId($competition['href'], '#season_id_selector > option');
+
+        $matches = $this->listMatches($filter);
+
+        $match = array_values(array_filter($matches,function($v) use ($matchId){
+            return $v['id'] == $matchId;
+        }));
+        
+        return end($match);
     }
 
     /**
@@ -634,5 +653,19 @@ class SoccerWay implements ProviderInterface
         );
 
         return $this->filterCharFromSentence(end($urlParts));
+    }
+    /**
+     * Get id from href
+     * Usually id takes place
+     * on the last segment
+     * @param  string $href
+     * @return string
+     */
+    private function getIdFromHref(string $href){
+        $urlParts = $this->splitSentence($href,"/");
+        $urlParts = array_values(array_filter($urlParts,function($v){
+            return is_numeric($v);
+        }));
+        return end($urlParts);
     }
 }

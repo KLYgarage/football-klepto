@@ -79,6 +79,7 @@ interface ProviderInterface
      */
     public function getMatchById(
         $matchId,
+        array $filter,
         bool $convertToArray
     );
 

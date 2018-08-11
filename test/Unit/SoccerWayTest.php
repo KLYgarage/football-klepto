@@ -146,6 +146,8 @@ class SoccerWayTest extends \PHPUnit\Framework\TestCase
         $this->assertNotFalse($matches);
 
         $this->assertNotEmpty($matches);
+
+        //print_r($matches);
     }
 
     public function testListMatchesInggris(): void
@@ -164,13 +166,30 @@ class SoccerWayTest extends \PHPUnit\Framework\TestCase
         //print_r($matches);
     }
 
-    public function testGetStandingsByCompetitionId(): void
+    public function testGetStandingsByCompetitionId()
     {
-        $filter = [
-            'area' => 'Italia',
-        ];
-        $standings = $this->soccerWay->getStandingsByCompetitionId('13', $filter);
+        $filter = array(
+            'area'=>'Italia'
+        );
+        $standings = $this->soccerWay->getStandingsByCompetitionId("13",$filter);
         $this->assertNotNull($standings);
         $this->assertNotEmpty($standings);
+    }
+
+    public function testGetMatchById()
+    {
+        $matchId = 2864136;
+
+        $filter = array(
+            'competitionId'=>"13",
+            "area"=>"Italia",
+            "competitionName"=>"Serie A"
+        );
+
+        $match = $this->soccerWay->getMatchById((string)$matchId,$filter);
+
+        $this->assertNotNull($match);
+
+        $this->assertNotEmpty($match);
     }
 }
