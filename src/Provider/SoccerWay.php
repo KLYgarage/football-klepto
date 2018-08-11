@@ -392,8 +392,6 @@ class SoccerWay implements ProviderInterface
         ],
         bool $convertToArray = true
     ) {
-        $competition = $this->getCompetitionById($filter['competitionId'], $filter);
-
         $matches = $this->listMatches($filter);
 
         $match = array_values(array_filter($matches, function ($v) use ($matchId) {
