@@ -394,10 +394,6 @@ class SoccerWay implements ProviderInterface
     ) {
         $competition = $this->getCompetitionById($filter['competitionId'], $filter);
 
-        $roundId = $this->getRoundId($competition['href'], 'h2 > a');
-
-        $seasonId = $this->getSeasonId($competition['href'], '#season_id_selector > option');
-
         $matches = $this->listMatches($filter);
 
         $match = array_values(array_filter($matches, function ($v) use ($matchId) {
