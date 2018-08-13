@@ -18,7 +18,7 @@ interface ProviderInterface
     /**
      * List matches
      * with/without criteria
-     * @return array|\object
+     * @return array|\object|boolean
      */
     public function listMatches(array $filter, bool $convertToArray);
 
@@ -37,6 +37,7 @@ interface ProviderInterface
      */
     public function getCompetitionById(
         $id,
+        array $filter,
         bool $convertToArray
     );
 
@@ -53,7 +54,11 @@ interface ProviderInterface
      * @param  int|string $id
      * @return array|\object
      */
-    public function getTeamById($id, bool $convertToArray);
+    public function getTeamById(
+        $id,
+        array $filter,
+        bool $convertToArray
+);
 
     /**
      * List all teams for a particular competition
@@ -74,6 +79,7 @@ interface ProviderInterface
      */
     public function getMatchById(
         $matchId,
+        array $filter,
         bool $convertToArray
     );
 
@@ -85,6 +91,7 @@ interface ProviderInterface
      */
     public function getStandingsByCompetitionId(
         $competitionId,
+        array $filter,
         bool $convertToArray
     );
 }
