@@ -270,4 +270,38 @@ class FootballDataOrg implements ProviderInterface
             $convertToArray
         );
     }
+    
+    /**
+     * @inheritDoc
+     */
+    public function getPlayerById(
+        $playerId,
+        array $filter = [''],
+        bool $convertToArray = true
+    ) {
+        return json_decode(
+            (string) $this->httpClient->request(
+                'GET',
+                self::PLAYER_ENDPOINT . '/' . (string) $playerId
+            )->getBody(),
+            $convertToArray
+        );
+    }
+
+    /**
+     * Show topscore by competition id
+     */
+    public function getTopScoreByCompetition(
+        string $competitionCode,
+        bool $convertToArray = true
+    ) {
+        return json_decode(
+            (string) $this->httpClient->request(
+                'GET',
+                self::COMPETITION_ENDPOINT . '/' . (string) $competitionCode . '/scorers'
+            )->getBody(),
+            $convertToArray
+        );
+    }
+    
 }
