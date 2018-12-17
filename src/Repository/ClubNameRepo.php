@@ -25,7 +25,7 @@ class ClubNameRepo implements RepositoryInterface
 
     /**
      * Constructor
-     * @param null|string|array $args
+     * @param string|array|null $args
      */
     public function __construct($args = null)
     {
@@ -35,7 +35,7 @@ class ClubNameRepo implements RepositoryInterface
 
     /**
      * @inheritDoc
-     * @param  null|string|array $args
+     * @param  string|array|null $args
      * @throws \Exception
      */
     public function load($args = null): void

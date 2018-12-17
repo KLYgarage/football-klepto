@@ -178,7 +178,7 @@ class SoccerWay implements ProviderInterface
                 'action' => 'changePage',
                 'block_id' => 'page_competition_1_block_competition_matches_summary_5',
                 'callback_params' => '{"page":"' . ($counter - 1) . '","block_service_id":"competition_summary_block_competitionmatchessummary","round_id":"' . $roundId . '","outgroup":"","view":"2","competition_id":"' . $competitionId . '"}',
-                'params' => '{"page":"' . ($counter) . '"}',
+                'params' => '{"page":"' . $counter . '"}',
 
             ];
 
@@ -478,8 +478,8 @@ class SoccerWay implements ProviderInterface
             }
             return empty($values) ? '' : $values;
         }
-        return ($domElement instanceof \DOMElement
-            && $domElement->hasAttribute($attribute))
+        return $domElement instanceof \DOMElement
+            && $domElement->hasAttribute($attribute)
         ? $domElement->getAttribute($attribute) : '';
     }
 

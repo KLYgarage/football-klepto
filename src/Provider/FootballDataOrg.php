@@ -270,7 +270,7 @@ class FootballDataOrg implements ProviderInterface
             $convertToArray
         );
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -289,7 +289,8 @@ class FootballDataOrg implements ProviderInterface
     }
 
     /**
-     * Show topscore by competition id
+     * Show list topscore.
+     * @return array|\object
      */
     public function getTopScoreByCompetition(
         string $competitionCode,
@@ -303,5 +304,4 @@ class FootballDataOrg implements ProviderInterface
             $convertToArray
         );
     }
-    
 }
