@@ -16,7 +16,7 @@ function loadTestEnv(): array
     $envPath = realpath(__DIR__ . '/.env');
 
     if (file_exists($envPath)) {
-        $env = array_reduce(
+        return array_reduce(
             array_filter(
                 explode(
                     "\n",
@@ -30,8 +30,6 @@ function loadTestEnv(): array
             },
             []
         );
-
-        return $env;
     }
 
     return [];

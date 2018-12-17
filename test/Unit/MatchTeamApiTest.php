@@ -84,10 +84,6 @@ class MatchTeamApiTest extends \PHPUnit\Framework\TestCase
     public function testGetTeamByCompetitionId($competitionId)
     {
         try {
-            $filter = [
-                'stages' => 'S',
-            ];
-
             $team = $this->provider->getTeamByCompetitionId(
                 $competitionId
             );
@@ -99,10 +95,6 @@ class MatchTeamApiTest extends \PHPUnit\Framework\TestCase
             echo $e->getMessage() . "\n";
 
             $competitionId = 2001;
-
-            $filter = [
-                'stages' => 'S',
-            ];
 
             $team = $this->provider->getTeamByCompetitionId(
                 $competitionId
