@@ -37,6 +37,11 @@ class FootballDataOrg implements ProviderInterface
     public const MATCH_ENDPOINT = '/v2/matches';
 
     /**
+     * Player endpoint
+     */
+    public const PLAYER_ENDPOINT = '/v2/players';
+
+    /**
      * Api key
      * @var string
      */
